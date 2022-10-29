@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/root/csapp/coruntine/build",
+  "command": "/usr/bin/g++   -g -std=gnu++23 -o CMakeFiles/coroutine.dir/main.cpp.o -c /root/csapp/coruntine/main.cpp",
+  "file": "/root/csapp/coruntine/main.cpp"
+}
+]
