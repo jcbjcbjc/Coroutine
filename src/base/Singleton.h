@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_SINGLETON_H
-#define MUDUO_BASE_SINGLETON_H
+#ifndef common_BASE_SINGLETON_H
+#define common_BASE_SINGLETON_H
 
 #include "noncopyable.h"
 
@@ -12,7 +12,7 @@
 #include <pthread.h>
 #include <stdlib.h> // atexit
 
-namespace muduo
+namespace common
 {
 
 namespace detail
@@ -72,6 +72,6 @@ pthread_once_t Singleton<T>::ponce_ = PTHREAD_ONCE_INIT;
 template<typename T>
 T* Singleton<T>::value_ = NULL;
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_SINGLETON_H
+#endif  // common_BASE_SINGLETON_H

@@ -9,7 +9,7 @@
 #include <execinfo.h>
 #include <stdlib.h>
 
-namespace muduo
+namespace common
 {
 namespace CurrentThread
 {
@@ -74,4 +74,4 @@ string stackTrace(bool demangle)
 }
 
 }  // namespace CurrentThread
-}  // namespace muduo
+}  // namespace common

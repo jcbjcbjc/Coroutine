@@ -7,7 +7,7 @@
 #include <stdio.h>  // snprintf
 #include <time.h>  // struct tm
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -43,10 +43,10 @@ struct Date::YearMonthDay getYearMonthDay(int julianDayNumber)
 }
 }  // namespace detail
 const int Date::kJulianDayOf1970_01_01 = detail::getJulianDayNumber(1970, 1, 1);
-}  // namespace muduo
+}  // namespace common
 
-using namespace muduo;
-using namespace muduo::detail;
+using namespace common;
+using namespace common::detail;
 
 Date::Date(int y, int m, int d)
   : julianDayNumber_(getJulianDayNumber(y, m, d))

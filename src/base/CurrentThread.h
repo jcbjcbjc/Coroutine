@@ -3,12 +3,12 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_CURRENTTHREAD_H
-#define MUDUO_BASE_CURRENTTHREAD_H
+#ifndef common_BASE_CURRENTTHREAD_H
+#define common_BASE_CURRENTTHREAD_H
 
 #include "Types.h"
 
-namespace muduo
+namespace common
 {
 namespace CurrentThread
 {
@@ -49,6 +49,6 @@ namespace CurrentThread
 
   string stackTrace(bool demangle);
 }  // namespace CurrentThread
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_CURRENTTHREAD_H
+#endif  // common_BASE_CURRENTTHREAD_H

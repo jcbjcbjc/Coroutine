@@ -3,13 +3,13 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_EXCEPTION_H
-#define MUDUO_BASE_EXCEPTION_H
+#ifndef common_BASE_EXCEPTION_H
+#define common_BASE_EXCEPTION_H
 
 #include "Types.h"
 #include <exception>
 
-namespace muduo
+namespace common
 {
 
 class Exception : public std::exception
@@ -35,6 +35,6 @@ class Exception : public std::exception
   string stack_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_EXCEPTION_H
+#endif  // common_BASE_EXCEPTION_H

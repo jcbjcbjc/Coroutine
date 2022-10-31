@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_MUTEX_H
-#define MUDUO_BASE_MUTEX_H
+#ifndef common_BASE_MUTEX_H
+#define common_BASE_MUTEX_H
 
 #include "CurrentThread.h"
 #include "noncopyable.h"
@@ -104,7 +104,7 @@ __END_DECLS
 
 #endif // CHECK_PTHREAD_RETURN_VALUE
 
-namespace muduo
+namespace common
 {
 
 // Use as data member of a class, eg.
@@ -223,11 +223,11 @@ class SCOPED_CAPABILITY MutexLockGuard : noncopyable
   MutexLock& mutex_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
 // Prevent misuse like:
 // MutexLockGuard(mutex_);
 // A tempory object doesn't hold the lock for long!
 #define MutexLockGuard(x) error "Missing guard object name"
 
-#endif  // MUDUO_BASE_MUTEX_H
+#endif  // common_BASE_MUTEX_H

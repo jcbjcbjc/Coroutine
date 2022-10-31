@@ -6,7 +6,7 @@
 #include "Exception.h"
 #include "CurrentThread.h"
 
-namespace muduo
+namespace common
 {
 
 Exception::Exception(string msg)
@@ -15,4 +15,4 @@ Exception::Exception(string msg)
 {
 }
 
-}  // namespace muduo
+}  // namespace common

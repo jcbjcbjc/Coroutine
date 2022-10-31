@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_THREADPOOL_H
-#define MUDUO_BASE_THREADPOOL_H
+#ifndef common_BASE_THREADPOOL_H
+#define common_BASE_THREADPOOL_H
 
 #include "Condition.h"
 #include "Mutex.h"
@@ -14,7 +14,7 @@
 #include <deque>
 #include <vector>
 
-namespace muduo
+namespace common
 {
 
 class ThreadPool : noncopyable
@@ -56,12 +56,12 @@ class ThreadPool : noncopyable
   Condition notFull_ GUARDED_BY(mutex_);
   string name_;
   Task threadInitCallback_;
-  std::vector<std::unique_ptr<muduo::Thread>> threads_;
+  std::vector<std::unique_ptr<common::Thread>> threads_;
   std::deque<Task> queue_ GUARDED_BY(mutex_);
   size_t maxQueueSize_;
   bool running_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_THREADPOOL_H
+#endif  // common_BASE_THREADPOOL_H

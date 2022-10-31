@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <time.h>
 
-using namespace muduo;
+using namespace common;
 
 LogFile::LogFile(const string& basename,
                  off_t rollSize,

@@ -4,7 +4,7 @@
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-using namespace muduo;
+using namespace common;
 
 int main()
 {

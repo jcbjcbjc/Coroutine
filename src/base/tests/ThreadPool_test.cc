@@ -8,7 +8,7 @@
 
 void print()
 {
-  printf("tid=%d\n", muduo::CurrentThread::tid());
+  printf("tid=%d\n", common::CurrentThread::tid());
 }
 
 void printString(const std::string& str)
@@ -20,7 +20,7 @@ void printString(const std::string& str)
 void test(int maxSize)
 {
   LOG_WARN << "Test ThreadPool with max queue size = " << maxSize;
-  muduo::ThreadPool pool("MainThreadPool");
+  common::ThreadPool pool("MainThreadPool");
   pool.setMaxQueueSize(maxSize);
   pool.start(5);
 
@@ -35,8 +35,8 @@ void test(int maxSize)
   }
   LOG_WARN << "Done";
 
-  muduo::CountDownLatch latch(1);
-  pool.run(std::bind(&muduo::CountDownLatch::countDown, &latch));
+  common::CountDownLatch latch(1);
+  pool.run(std::bind(&common::CountDownLatch::countDown, &latch));
   latch.wait();
   pool.stop();
 }
@@ -45,11 +45,11 @@ void test(int maxSize)
  * Wish we could do this in the future.
 void testMove()
 {
-  muduo::ThreadPool pool;
+  common::ThreadPool pool;
   pool.start(2);
 
   std::unique_ptr<int> x(new int(42));
-  pool.run([y = std::move(x)]{ printf("%d: %d\n", muduo::CurrentThread::tid(), *y); });
+  pool.run([y = std::move(x)]{ printf("%d: %d\n", common::CurrentThread::tid(), *y); });
   pool.stop();
 }
 */
@@ -57,17 +57,17 @@ void testMove()
 void longTask(int num)
 {
   LOG_INFO << "longTask " << num;
-  muduo::CurrentThread::sleepUsec(3000000);
+  common::CurrentThread::sleepUsec(3000000);
 }
 
 void test2()
 {
   LOG_WARN << "Test ThreadPool by stoping early.";
-  muduo::ThreadPool pool("ThreadPool");
+  common::ThreadPool pool("ThreadPool");
   pool.setMaxQueueSize(5);
   pool.start(3);
 
-  muduo::Thread thread1([&pool]()
+  common::Thread thread1([&pool]()
   {
     for (int i = 0; i < 20; ++i)
     {
@@ -76,7 +76,7 @@ void test2()
   }, "thread1");
   thread1.start();
 
-  muduo::CurrentThread::sleepUsec(5000000);
+  common::CurrentThread::sleepUsec(5000000);
   LOG_WARN << "stop pool";
   pool.stop();  // early stop
 

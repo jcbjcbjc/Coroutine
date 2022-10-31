@@ -3,13 +3,13 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_COUNTDOWNLATCH_H
-#define MUDUO_BASE_COUNTDOWNLATCH_H
+#ifndef common_BASE_COUNTDOWNLATCH_H
+#define common_BASE_COUNTDOWNLATCH_H
 
 #include "Condition.h"
 #include "Mutex.h"
 
-namespace muduo
+namespace common
 {
 
 class CountDownLatch : noncopyable
@@ -30,5 +30,5 @@ class CountDownLatch : noncopyable
   int count_ GUARDED_BY(mutex_);
 };
 
-}  // namespace muduo
-#endif  // MUDUO_BASE_COUNTDOWNLATCH_H
+}  // namespace common
+#endif  // common_BASE_COUNTDOWNLATCH_H

@@ -7,6 +7,10 @@ int main() {
     scheduler.CreateTask<int>(
             [](){int a;},3
             );
+    //scheduler.loop();
+
+
+
     Coroutine::make_coroutine<int>([]() {
         co_begin(co);
         //uint32_t cnt = co_arg(argv, uint32_t);

@@ -1,5 +1,5 @@
-#ifndef MUDUO_BASE_TYPES_H
-#define MUDUO_BASE_TYPES_H
+#ifndef common_BASE_TYPES_H
+#define common_BASE_TYPES_H
 
 #include <stdint.h>
 #include <string.h>  // memset
@@ -12,7 +12,7 @@
 ///
 /// The most common stuffs.
 ///
-namespace muduo
+namespace common
 {
 
 using std::string;
@@ -118,6 +118,6 @@ inline To down_cast(From* f)                     // so we only accept pointers
   return static_cast<To>(f);
 }
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_TYPES_H
+#endif  // common_BASE_TYPES_H

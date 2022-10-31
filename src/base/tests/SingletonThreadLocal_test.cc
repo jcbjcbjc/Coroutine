@@ -6,32 +6,32 @@
 #include <stdio.h>
 #include <unistd.h>
 
-class Test : muduo::noncopyable
+class Test : common::noncopyable
 {
  public:
   Test()
   {
-    printf("tid=%d, constructing %p\n", muduo::CurrentThread::tid(), this);
+    printf("tid=%d, constructing %p\n", common::CurrentThread::tid(), this);
   }
 
   ~Test()
   {
-    printf("tid=%d, destructing %p %s\n", muduo::CurrentThread::tid(), this, name_.c_str());
+    printf("tid=%d, destructing %p %s\n", common::CurrentThread::tid(), this, name_.c_str());
   }
 
-  const muduo::string& name() const { return name_; }
-  void setName(const muduo::string& n) { name_ = n; }
+  const common::string& name() const { return name_; }
+  void setName(const common::string& n) { name_ = n; }
 
  private:
-  muduo::string name_;
+  common::string name_;
 };
 
-#define STL muduo::Singleton<muduo::ThreadLocal<Test> >::instance().value()
+#define STL common::Singleton<common::ThreadLocal<Test> >::instance().value()
 
 void print()
 {
   printf("tid=%d, %p name=%s\n",
-         muduo::CurrentThread::tid(),
+         common::CurrentThread::tid(),
          &STL,
          STL.name().c_str());
 }
@@ -47,8 +47,8 @@ void threadFunc(const char* changeTo)
 int main()
 {
   STL.setName("main one");
-  muduo::Thread t1(std::bind(threadFunc, "thread1"));
-  muduo::Thread t2(std::bind(threadFunc, "thread2"));
+  common::Thread t1(std::bind(threadFunc, "thread1"));
+  common::Thread t2(std::bind(threadFunc, "thread2"));
   t1.start();
   t2.start();
   t1.join();

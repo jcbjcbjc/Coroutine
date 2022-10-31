@@ -22,31 +22,31 @@ class Bench
     threads_.reserve(numThreads);
     for (int i = 0; i < numThreads; ++i)
     {
-      queues_.emplace_back(new muduo::BlockingQueue<int>());
+      queues_.emplace_back(new common::BlockingQueue<int>());
       char name[32];
       snprintf(name, sizeof name, "work thread %d", i);
-      threads_.emplace_back(new muduo::Thread(
+      threads_.emplace_back(new common::Thread(
             [this, i] { threadFunc(i); },
-            muduo::string(name)));
+            common::string(name)));
     }
   }
 
   void Start()
   {
-    muduo::Timestamp start = muduo::Timestamp::now();
+    common::Timestamp start = common::Timestamp::now();
     for (auto& thr : threads_)
     {
       thr->start();
     }
     startLatch_.wait();
-    muduo::Timestamp started = muduo::Timestamp::now();
+    common::Timestamp started = common::Timestamp::now();
     printf("all %zd threads started, %.3fms\n",
            threads_.size(), 1e3 * timeDifference(started, start));
   }
 
   void Run()
   {
-    muduo::Timestamp start = muduo::Timestamp::now();
+    common::Timestamp start = common::Timestamp::now();
     const int rounds = 100003;
     queues_[0]->put(rounds);
 
@@ -58,7 +58,7 @@ class Bench
 
   void Stop()
   {
-    muduo::Timestamp stop = muduo::Timestamp::now();
+    common::Timestamp stop = common::Timestamp::now();
     for (const auto& queue : queues_)
     {
       queue->put(-1);
@@ -68,7 +68,7 @@ class Bench
       thr->join();
     }
 
-    muduo::Timestamp t2 = muduo::Timestamp::now();
+    common::Timestamp t2 = common::Timestamp::now();
     printf("all %zd threads joined, %.3fms\n",
            threads_.size(), 1e3 * timeDifference(t2, stop));
   }
@@ -78,8 +78,8 @@ class Bench
   {
     startLatch_.countDown();
 
-    muduo::BlockingQueue<int>* input = queues_[id].get();
-    muduo::BlockingQueue<int>* output = queues_[(id+1) % queues_.size()].get();
+    common::BlockingQueue<int>* input = queues_[id].get();
+    common::BlockingQueue<int>* output = queues_[(id+1) % queues_.size()].get();
     while (true)
     {
       int value = input->take();
@@ -95,17 +95,17 @@ class Bench
 
       if (value == 0)
       {
-        done_.put(std::make_pair(id, muduo::Timestamp::now()));
+        done_.put(std::make_pair(id, common::Timestamp::now()));
       }
       break;
     }
   }
 
-  using TimestampQueue = muduo::BlockingQueue<std::pair<int, muduo::Timestamp>>;
+  using TimestampQueue = common::BlockingQueue<std::pair<int, common::Timestamp>>;
   TimestampQueue done_;
-  muduo::CountDownLatch startLatch_, stopLatch_;
-  std::vector<std::unique_ptr<muduo::BlockingQueue<int>>> queues_;
-  std::vector<std::unique_ptr<muduo::Thread>> threads_;
+  common::CountDownLatch startLatch_, stopLatch_;
+  std::vector<std::unique_ptr<common::BlockingQueue<int>>> queues_;
+  std::vector<std::unique_ptr<common::Thread>> threads_;
   const bool verbose_ = true;
 };
 
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 {
   int threads = argc > 1 ? atoi(argv[1]) : 1;
 
-  printf("sizeof BlockingQueue = %zd\n", sizeof(muduo::BlockingQueue<int>));
+  printf("sizeof BlockingQueue = %zd\n", sizeof(common::BlockingQueue<int>));
   printf("sizeof deque<int> = %zd\n", sizeof(std::deque<int>));
   Bench t(threads);
   t.Start();

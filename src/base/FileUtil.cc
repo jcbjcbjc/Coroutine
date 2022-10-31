@@ -13,7 +13,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-using namespace muduo;
+using namespace common;
 
 FileUtil::AppendFile::AppendFile(StringArg filename)
   : fp_(::fopen(filename.c_str(), "ae")),  // 'e' for O_CLOEXEC

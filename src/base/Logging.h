@@ -3,13 +3,13 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_LOGGING_H
-#define MUDUO_BASE_LOGGING_H
+#ifndef common_BASE_LOGGING_H
+#define common_BASE_LOGGING_H
 
 #include "LogStream.h"
 #include "Timestamp.h"
 
-namespace muduo
+namespace common
 {
 
 class TimeZone;
@@ -121,17 +121,17 @@ inline Logger::LogLevel Logger::logLevel()
 //   else
 //     logWarnStream << "Bad news";
 //
-#define LOG_TRACE if (muduo::Logger::logLevel() <= muduo::Logger::TRACE) \
-  muduo::Logger(__FILE__, __LINE__, muduo::Logger::TRACE, __func__).stream()
-#define LOG_DEBUG if (muduo::Logger::logLevel() <= muduo::Logger::DEBUG) \
-  muduo::Logger(__FILE__, __LINE__, muduo::Logger::DEBUG, __func__).stream()
-#define LOG_INFO if (muduo::Logger::logLevel() <= muduo::Logger::INFO) \
-  muduo::Logger(__FILE__, __LINE__).stream()
-#define LOG_WARN muduo::Logger(__FILE__, __LINE__, muduo::Logger::WARN).stream()
-#define LOG_ERROR muduo::Logger(__FILE__, __LINE__, muduo::Logger::ERROR).stream()
-#define LOG_FATAL muduo::Logger(__FILE__, __LINE__, muduo::Logger::FATAL).stream()
-#define LOG_SYSERR muduo::Logger(__FILE__, __LINE__, false).stream()
-#define LOG_SYSFATAL muduo::Logger(__FILE__, __LINE__, true).stream()
+#define LOG_TRACE if (common::Logger::logLevel() <= common::Logger::TRACE) \
+  common::Logger(__FILE__, __LINE__, common::Logger::TRACE, __func__).stream()
+#define LOG_DEBUG if (common::Logger::logLevel() <= common::Logger::DEBUG) \
+  common::Logger(__FILE__, __LINE__, common::Logger::DEBUG, __func__).stream()
+#define LOG_INFO if (common::Logger::logLevel() <= common::Logger::INFO) \
+  common::Logger(__FILE__, __LINE__).stream()
+#define LOG_WARN common::Logger(__FILE__, __LINE__, common::Logger::WARN).stream()
+#define LOG_ERROR common::Logger(__FILE__, __LINE__, common::Logger::ERROR).stream()
+#define LOG_FATAL common::Logger(__FILE__, __LINE__, common::Logger::FATAL).stream()
+#define LOG_SYSERR common::Logger(__FILE__, __LINE__, false).stream()
+#define LOG_SYSFATAL common::Logger(__FILE__, __LINE__, true).stream()
 
 const char* strerror_tl(int savedErrno);
 
@@ -141,7 +141,7 @@ const char* strerror_tl(int savedErrno);
 // initializer lists.
 
 #define CHECK_NOTNULL(val) \
-  ::muduo::CheckNotNull(__FILE__, __LINE__, "'" #val "' Must be non NULL", (val))
+  ::common::CheckNotNull(__FILE__, __LINE__, "'" #val "' Must be non NULL", (val))
 
 // A small helper for CHECK_NOTNULL().
 template <typename T>
@@ -154,6 +154,6 @@ T* CheckNotNull(Logger::SourceFile file, int line, const char *names, T* ptr)
   return ptr;
 }
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_LOGGING_H
+#endif  // common_BASE_LOGGING_H

@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_BOUNDEDBLOCKINGQUEUE_H
-#define MUDUO_BASE_BOUNDEDBLOCKINGQUEUE_H
+#ifndef common_BASE_BOUNDEDBLOCKINGQUEUE_H
+#define common_BASE_BOUNDEDBLOCKINGQUEUE_H
 
 #include "Condition.h"
 #include "Mutex.h"
@@ -12,7 +12,7 @@
 #include <boost/circular_buffer.hpp>
 #include <assert.h>
 
-namespace muduo
+namespace common
 {
 
 template<typename T>
@@ -96,6 +96,6 @@ class BoundedBlockingQueue : noncopyable
   boost::circular_buffer<T>  queue_ GUARDED_BY(mutex_);
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_BOUNDEDBLOCKINGQUEUE_H
+#endif  // common_BASE_BOUNDEDBLOCKINGQUEUE_H

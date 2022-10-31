@@ -15,7 +15,7 @@
 
 #include <sstream>
 
-namespace muduo
+namespace common
 {
 
 /*
@@ -46,9 +46,9 @@ const char* strerror_tl(int savedErrno)
 
 Logger::LogLevel initLogLevel()
 {
-  if (::getenv("MUDUO_LOG_TRACE"))
+  if (::getenv("common_LOG_TRACE"))
     return Logger::TRACE;
-  else if (::getenv("MUDUO_LOG_DEBUG"))
+  else if (::getenv("common_LOG_DEBUG"))
     return Logger::DEBUG;
   else
     return Logger::INFO;
@@ -109,9 +109,9 @@ Logger::OutputFunc g_output = defaultOutput;
 Logger::FlushFunc g_flush = defaultFlush;
 TimeZone g_logTimeZone;
 
-}  // namespace muduo
+}  // namespace common
 
-using namespace muduo;
+using namespace common;
 
 Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line)
   : time_(Timestamp::now()),

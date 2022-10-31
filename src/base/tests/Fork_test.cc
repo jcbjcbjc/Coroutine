@@ -11,7 +11,7 @@ __thread int x = 0;
 
 void print()
 {
-  printf("pid=%d tid=%d x=%d\n", getpid(), muduo::CurrentThread::tid(), x);
+  printf("pid=%d tid=%d x=%d\n", getpid(), common::CurrentThread::tid(), x);
 }
 
 int main()

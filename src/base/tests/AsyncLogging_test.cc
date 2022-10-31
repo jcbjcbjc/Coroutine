@@ -8,7 +8,7 @@
 
 off_t kRollSize = 500*1000*1000;
 
-muduo::AsyncLogging* g_asyncLog = NULL;
+common::AsyncLogging* g_asyncLog = NULL;
 
 void asyncOutput(const char* msg, int len)
 {
@@ -17,17 +17,17 @@ void asyncOutput(const char* msg, int len)
 
 void bench(bool longLog)
 {
-  muduo::Logger::setOutput(asyncOutput);
+  common::Logger::setOutput(asyncOutput);
 
   int cnt = 0;
   const int kBatch = 1000;
-  muduo::string empty = " ";
-  muduo::string longStr(3000, 'X');
+  common::string empty = " ";
+  common::string longStr(3000, 'X');
   longStr += " ";
 
   for (int t = 0; t < 30; ++t)
   {
-    muduo::Timestamp start = muduo::Timestamp::now();
+    common::Timestamp start = common::Timestamp::now();
     for (int i = 0; i < kBatch; ++i)
     {
       LOG_INFO << "Hello 0123456789" << " abcdefghijklmnopqrstuvwxyz "
@@ -35,7 +35,7 @@ void bench(bool longLog)
                << cnt;
       ++cnt;
     }
-    muduo::Timestamp end = muduo::Timestamp::now();
+    common::Timestamp end = common::Timestamp::now();
     printf("%f\n", timeDifference(end, start)*1000000/kBatch);
     struct timespec ts = { 0, 500*1000*1000 };
     nanosleep(&ts, NULL);
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
   char name[256] = { '\0' };
   strncpy(name, argv[0], sizeof name - 1);
-  muduo::AsyncLogging log(::basename(name), kRollSize);
+  common::AsyncLogging log(::basename(name), kRollSize);
   log.start();
   g_asyncLog = &log;
 

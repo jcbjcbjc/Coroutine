@@ -5,7 +5,7 @@
 
 #include "CountDownLatch.h"
 
-using namespace muduo;
+using namespace common;
 
 CountDownLatch::CountDownLatch(int count)
   : mutex_(),

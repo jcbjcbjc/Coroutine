@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_ASYNCLOGGING_H
-#define MUDUO_BASE_ASYNCLOGGING_H
+#ifndef common_BASE_ASYNCLOGGING_H
+#define common_BASE_ASYNCLOGGING_H
 
 #include "BlockingQueue.h"
 #include "BoundedBlockingQueue.h"
@@ -16,7 +16,7 @@
 #include <atomic>
 #include <vector>
 
-namespace muduo
+namespace common
 {
 
 class AsyncLogging : noncopyable
@@ -55,7 +55,7 @@ class AsyncLogging : noncopyable
 
   void threadFunc();
 
-  typedef muduo::detail::FixedBuffer<muduo::detail::kLargeBuffer> Buffer;
+  typedef common::detail::FixedBuffer<common::detail::kLargeBuffer> Buffer;
   typedef std::vector<std::unique_ptr<Buffer>> BufferVector;
   typedef BufferVector::value_type BufferPtr;
 
@@ -63,15 +63,15 @@ class AsyncLogging : noncopyable
   std::atomic<bool> running_;
   const string basename_;
   const off_t rollSize_;
-  muduo::Thread thread_;
-  muduo::CountDownLatch latch_;
-  muduo::MutexLock mutex_;
-  muduo::Condition cond_ GUARDED_BY(mutex_);
+  common::Thread thread_;
+  common::CountDownLatch latch_;
+  common::MutexLock mutex_;
+  common::Condition cond_ GUARDED_BY(mutex_);
   BufferPtr currentBuffer_ GUARDED_BY(mutex_);
   BufferPtr nextBuffer_ GUARDED_BY(mutex_);
   BufferVector buffers_ GUARDED_BY(mutex_);
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_ASYNCLOGGING_H
+#endif  // common_BASE_ASYNCLOGGING_H

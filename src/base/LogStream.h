@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_LOGSTREAM_H
-#define MUDUO_BASE_LOGSTREAM_H
+#ifndef common_BASE_LOGSTREAM_H
+#define common_BASE_LOGSTREAM_H
 
 #include "noncopyable.h"
 #include "StringPiece.h"
@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <string.h> // memcpy
 
-namespace muduo
+namespace common
 {
 
 namespace detail
@@ -198,6 +198,6 @@ string formatSI(int64_t n);
 // Requires n >= 0
 string formatIEC(int64_t n);
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_LOGSTREAM_H
+#endif  // common_BASE_LOGSTREAM_H

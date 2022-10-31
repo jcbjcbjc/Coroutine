@@ -5,8 +5,8 @@
 //
 // This is a public header file, it must only include public header files.
 
-#ifndef MUDUO_BASE_PROCESSINFO_H
-#define MUDUO_BASE_PROCESSINFO_H
+#ifndef common_BASE_PROCESSINFO_H
+#define common_BASE_PROCESSINFO_H
 
 #include "StringPiece.h"
 #include "Types.h"
@@ -14,7 +14,7 @@
 #include <vector>
 #include <sys/types.h>
 
-namespace muduo
+namespace common
 {
 
 namespace ProcessInfo
@@ -63,6 +63,6 @@ namespace ProcessInfo
   std::vector<pid_t> threads();
 }  // namespace ProcessInfo
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_PROCESSINFO_H
+#endif  // common_BASE_PROCESSINFO_H

@@ -1,7 +1,7 @@
-#ifndef MUDUO_BASE_COPYABLE_H
-#define MUDUO_BASE_COPYABLE_H
+#ifndef common_BASE_COPYABLE_H
+#define common_BASE_COPYABLE_H
 
-namespace muduo
+namespace common
 {
 
 /// A tag class emphasises the objects are copyable.
@@ -14,6 +14,6 @@ class copyable
   ~copyable() = default;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_COPYABLE_H
+#endif  // common_BASE_COPYABLE_H

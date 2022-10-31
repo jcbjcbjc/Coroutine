@@ -3,14 +3,14 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_ATOMIC_H
-#define MUDUO_BASE_ATOMIC_H
+#ifndef common_BASE_ATOMIC_H
+#define common_BASE_ATOMIC_H
 
 #include "noncopyable.h"
 
 #include <stdint.h>
 
-namespace muduo
+namespace common
 {
 
 namespace detail
@@ -92,6 +92,6 @@ class AtomicIntegerT : noncopyable
 typedef detail::AtomicIntegerT<int32_t> AtomicInt32;
 typedef detail::AtomicIntegerT<int64_t> AtomicInt64;
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_ATOMIC_H
+#endif  // common_BASE_ATOMIC_H

@@ -5,14 +5,14 @@
 //
 // This is a public header file, it must only include public header files.
 
-#ifndef MUDUO_BASE_FILEUTIL_H
-#define MUDUO_BASE_FILEUTIL_H
+#ifndef common_BASE_FILEUTIL_H
+#define common_BASE_FILEUTIL_H
 
 #include "noncopyable.h"
 #include "StringPiece.h"
 #include <sys/types.h>  // for off_t
 
-namespace muduo
+namespace common
 {
 namespace FileUtil
 {
@@ -83,7 +83,7 @@ class AppendFile : noncopyable
 };
 
 }  // namespace FileUtil
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_FILEUTIL_H
+#endif  // common_BASE_FILEUTIL_H
 

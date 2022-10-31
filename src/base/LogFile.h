@@ -3,15 +3,15 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_LOGFILE_H
-#define MUDUO_BASE_LOGFILE_H
+#ifndef common_BASE_LOGFILE_H
+#define common_BASE_LOGFILE_H
 
 #include "Mutex.h"
 #include "Types.h"
 
 #include <memory>
 
-namespace muduo
+namespace common
 {
 
 namespace FileUtil
@@ -54,5 +54,5 @@ class LogFile : noncopyable
   const static int kRollPerSeconds_ = 60*60*24;
 };
 
-}  // namespace muduo
-#endif  // MUDUO_BASE_LOGFILE_H
+}  // namespace common
+#endif  // common_BASE_LOGFILE_H

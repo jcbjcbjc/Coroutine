@@ -3,15 +3,15 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_THREADLOCAL_H
-#define MUDUO_BASE_THREADLOCAL_H
+#ifndef common_BASE_THREADLOCAL_H
+#define common_BASE_THREADLOCAL_H
 
 #include "Mutex.h"
 #include "noncopyable.h"
 
 #include <pthread.h>
 
-namespace muduo
+namespace common
 {
 
 template<typename T>
@@ -54,6 +54,6 @@ class ThreadLocal : noncopyable
   pthread_key_t pkey_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_THREADLOCAL_H
+#endif  // common_BASE_THREADLOCAL_H

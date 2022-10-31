@@ -3,15 +3,15 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_THREADLOCALSINGLETON_H
-#define MUDUO_BASE_THREADLOCALSINGLETON_H
+#ifndef common_BASE_THREADLOCALSINGLETON_H
+#define common_BASE_THREADLOCALSINGLETON_H
 
 #include "noncopyable.h"
 
 #include <assert.h>
 #include <pthread.h>
 
-namespace muduo
+namespace common
 {
 
 template<typename T>
@@ -78,5 +78,5 @@ __thread T* ThreadLocalSingleton<T>::t_value_ = 0;
 template<typename T>
 typename ThreadLocalSingleton<T>::Deleter ThreadLocalSingleton<T>::deleter_;
 
-}  // namespace muduo
-#endif  // MUDUO_BASE_THREADLOCALSINGLETON_H
+}  // namespace common
+#endif  // common_BASE_THREADLOCALSINGLETON_H

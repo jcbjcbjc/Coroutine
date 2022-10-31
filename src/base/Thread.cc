@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <linux/unistd.h>
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -30,8 +30,8 @@ pid_t gettid()
 
 void afterFork()
 {
-  muduo::CurrentThread::t_cachedTid = 0;
-  muduo::CurrentThread::t_threadName = "main";
+  common::CurrentThread::t_cachedTid = 0;
+  common::CurrentThread::t_threadName = "main";
   CurrentThread::tid();
   // no need to call pthread_atfork(NULL, NULL, &afterFork);
 }
@@ -41,7 +41,7 @@ class ThreadNameInitializer
  public:
   ThreadNameInitializer()
   {
-    muduo::CurrentThread::t_threadName = "main";
+    common::CurrentThread::t_threadName = "main";
     CurrentThread::tid();
     pthread_atfork(NULL, NULL, &afterFork);
   }
@@ -51,7 +51,7 @@ ThreadNameInitializer init;
 
 struct ThreadData
 {
-  typedef muduo::Thread::ThreadFunc ThreadFunc;
+  typedef common::Thread::ThreadFunc ThreadFunc;
   ThreadFunc func_;
   string name_;
   pid_t* tid_;
@@ -69,21 +69,21 @@ struct ThreadData
 
   void runInThread()
   {
-    *tid_ = muduo::CurrentThread::tid();
+    *tid_ = common::CurrentThread::tid();
     tid_ = NULL;
     latch_->countDown();
     latch_ = NULL;
 
-    muduo::CurrentThread::t_threadName = name_.empty() ? "muduoThread" : name_.c_str();
-    ::prctl(PR_SET_NAME, muduo::CurrentThread::t_threadName);
+    common::CurrentThread::t_threadName = name_.empty() ? "commonThread" : name_.c_str();
+    ::prctl(PR_SET_NAME, common::CurrentThread::t_threadName);
     try
     {
       func_();
-      muduo::CurrentThread::t_threadName = "finished";
+      common::CurrentThread::t_threadName = "finished";
     }
     catch (const Exception& ex)
     {
-      muduo::CurrentThread::t_threadName = "crashed";
+      common::CurrentThread::t_threadName = "crashed";
       fprintf(stderr, "exception caught in Thread %s\n", name_.c_str());
       fprintf(stderr, "reason: %s\n", ex.what());
       fprintf(stderr, "stack trace: %s\n", ex.stackTrace());
@@ -91,14 +91,14 @@ struct ThreadData
     }
     catch (const std::exception& ex)
     {
-      muduo::CurrentThread::t_threadName = "crashed";
+      common::CurrentThread::t_threadName = "crashed";
       fprintf(stderr, "exception caught in Thread %s\n", name_.c_str());
       fprintf(stderr, "reason: %s\n", ex.what());
       abort();
     }
     catch (...)
     {
-      muduo::CurrentThread::t_threadName = "crashed";
+      common::CurrentThread::t_threadName = "crashed";
       fprintf(stderr, "unknown exception caught in Thread %s\n", name_.c_str());
       throw; // rethrow
     }
@@ -197,4 +197,4 @@ int Thread::join()
   return pthread_join(pthreadId_, NULL);
 }
 
-}  // namespace muduo
+}  // namespace common

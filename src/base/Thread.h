@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_THREAD_H
-#define MUDUO_BASE_THREAD_H
+#ifndef common_BASE_THREAD_H
+#define common_BASE_THREAD_H
 
 #include "Atomic.h"
 #include "CountDownLatch.h"
@@ -14,7 +14,7 @@
 #include <memory>
 #include <pthread.h>
 
-namespace muduo
+namespace common
 {
 
 class Thread : noncopyable
@@ -50,5 +50,5 @@ class Thread : noncopyable
   static AtomicInt32 numCreated_;
 };
 
-}  // namespace muduo
-#endif  // MUDUO_BASE_THREAD_H
+}  // namespace common
+#endif  // common_BASE_THREAD_H

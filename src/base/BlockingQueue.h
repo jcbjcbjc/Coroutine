@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_BLOCKINGQUEUE_H
-#define MUDUO_BASE_BLOCKINGQUEUE_H
+#ifndef common_BASE_BLOCKINGQUEUE_H
+#define common_BASE_BLOCKINGQUEUE_H
 
 #include "Condition.h"
 #include "Mutex.h"
@@ -12,7 +12,7 @@
 #include <deque>
 #include <assert.h>
 
-namespace muduo
+namespace common
 {
 
 template<typename T>
@@ -80,6 +80,6 @@ class BlockingQueue : noncopyable
   queue_type        queue_ GUARDED_BY(mutex_);
 };  // __attribute__ ((aligned (64)));
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_BLOCKINGQUEUE_H
+#endif  // common_BASE_BLOCKINGQUEUE_H

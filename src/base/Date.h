@@ -3,15 +3,15 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_DATE_H
-#define MUDUO_BASE_DATE_H
+#ifndef common_BASE_DATE_H
+#define common_BASE_DATE_H
 
 #include "copyable.h"
 #include "Types.h"
 
 struct tm;
 
-namespace muduo
+namespace common
 {
 
 ///
@@ -20,7 +20,7 @@ namespace muduo
 /// This class is immutable.
 /// It's recommended to pass it by value, since it's passed in register on x64.
 ///
-class Date : public muduo::copyable
+class Date : public common::copyable
           // public boost::less_than_comparable<Date>,
           // public boost::equality_comparable<Date>
 {
@@ -114,6 +114,6 @@ inline bool operator==(Date x, Date y)
   return x.julianDayNumber() == y.julianDayNumber();
 }
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_DATE_H
+#endif  // common_BASE_DATE_H

@@ -3,18 +3,18 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_TIMEZONE_H
-#define MUDUO_BASE_TIMEZONE_H
+#ifndef common_BASE_TIMEZONE_H
+#define common_BASE_TIMEZONE_H
 
 #include "copyable.h"
 #include <memory>
 #include <time.h>
 
-namespace muduo
+namespace common
 {
 
 // TimeZone for 1970~2030
-class TimeZone : public muduo::copyable
+class TimeZone : public common::copyable
 {
  public:
   explicit TimeZone(const char* zonefile);
@@ -47,6 +47,6 @@ class TimeZone : public muduo::copyable
   std::shared_ptr<Data> data_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_TIMEZONE_H
+#endif  // common_BASE_TIMEZONE_H

@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <string.h>
 
-using muduo::TimeZone;
+using common::TimeZone;
 
 struct tm getTm(int year, int month, int day,
                 int hour, int minute, int seconds)
 {
   struct tm gmt;
-  muduo::memZero(&gmt, sizeof gmt);
+  common::memZero(&gmt, sizeof gmt);
   gmt.tm_year = year - 1900;
   gmt.tm_mon = month - 1;
   gmt.tm_mday = day;
@@ -24,7 +24,7 @@ struct tm getTm(int year, int month, int day,
 struct tm getTm(const char* str)
 {
   struct tm gmt;
-  muduo::memZero(&gmt, sizeof gmt);
+  common::memZero(&gmt, sizeof gmt);
   strptime(str, "%F %T", &gmt);
   return gmt;
 }

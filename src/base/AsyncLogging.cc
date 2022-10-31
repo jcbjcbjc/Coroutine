@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-using namespace muduo;
+using namespace common;
 
 AsyncLogging::AsyncLogging(const string& basename,
                            off_t rollSize,
@@ -33,7 +33,7 @@ AsyncLogging::AsyncLogging(const string& basename,
 
 void AsyncLogging::append(const char* logline, int len)
 {
-  muduo::MutexLockGuard lock(mutex_);
+  common::MutexLockGuard lock(mutex_);
   if (currentBuffer_->avail() > len)
   {
     currentBuffer_->append(logline, len);
@@ -73,7 +73,7 @@ void AsyncLogging::threadFunc()
     assert(buffersToWrite.empty());
 
     {
-      muduo::MutexLockGuard lock(mutex_);
+      common::MutexLockGuard lock(mutex_);
       if (buffers_.empty())  // unusual usage!
       {
         cond_.waitForSeconds(flushInterval_);

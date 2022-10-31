@@ -8,7 +8,7 @@ int main()
   ::unlink(filename);
   const char data[] = "123456789012345678901234567890123456789012345678901234567890\n";
   {
-  muduo::GzipFile writer = muduo::GzipFile::openForAppend(filename);
+  common::GzipFile writer = common::GzipFile::openForAppend(filename);
   if (writer.valid())
   {
     LOG_INFO << "tell " << writer.tell();
@@ -19,7 +19,7 @@ int main()
 
   {
   printf("testing reader\n");
-  muduo::GzipFile reader = muduo::GzipFile::openForRead(filename);
+  common::GzipFile reader = common::GzipFile::openForRead(filename);
   if (reader.valid())
   {
     char buf[256];
@@ -45,7 +45,7 @@ int main()
   }
 
   {
-  muduo::GzipFile writer = muduo::GzipFile::openForWriteExclusive(filename);
+  common::GzipFile writer = common::GzipFile::openForWriteExclusive(filename);
   if (writer.valid() || errno != EEXIST)
   {
     printf("FAILED\n");

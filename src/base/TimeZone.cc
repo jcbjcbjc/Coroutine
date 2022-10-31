@@ -19,7 +19,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -83,9 +83,9 @@ inline void fillHMS(unsigned seconds, struct tm* utc)
 
 }  // namespace detail
 const int kSecondsPerDay = 24*60*60;
-}  // namespace muduo
+}  // namespace common
 
-using namespace muduo;
+using namespace common;
 using namespace std;
 
 struct TimeZone::Data
@@ -96,7 +96,7 @@ struct TimeZone::Data
   string abbreviation;
 };
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -255,7 +255,7 @@ const Localtime* findLocaltime(const TimeZone::Data& data, Transition sentry, Co
 }
 
 }  // namespace detail
-}  // namespace muduo
+}  // namespace common
 
 
 TimeZone::TimeZone(const char* zonefile)

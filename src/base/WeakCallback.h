@@ -3,13 +3,13 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_WEAKCALLBACK_H
-#define MUDUO_BASE_WEAKCALLBACK_H
+#ifndef common_BASE_WEAKCALLBACK_H
+#define common_BASE_WEAKCALLBACK_H
 
 #include <functional>
 #include <memory>
 
-namespace muduo
+namespace common
 {
 
 // A barely usable WeakCallback
@@ -60,6 +60,6 @@ WeakCallback<CLASS, ARGS...> makeWeakCallback(const std::shared_ptr<CLASS>& obje
   return WeakCallback<CLASS, ARGS...>(object, function);
 }
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_WEAKCALLBACK_H
+#endif  // common_BASE_WEAKCALLBACK_H

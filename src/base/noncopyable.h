@@ -1,7 +1,7 @@
-#ifndef MUDUO_BASE_NONCOPYABLE_H
-#define MUDUO_BASE_NONCOPYABLE_H
+#ifndef common_BASE_NONCOPYABLE_H
+#define common_BASE_NONCOPYABLE_H
 
-namespace muduo
+namespace common
 {
 
 class noncopyable
@@ -15,6 +15,6 @@ class noncopyable
   ~noncopyable() = default;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_NONCOPYABLE_H
+#endif  // common_BASE_NONCOPYABLE_H

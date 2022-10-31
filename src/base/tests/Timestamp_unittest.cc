@@ -2,7 +2,7 @@
 #include <vector>
 #include <stdio.h>
 
-using muduo::Timestamp;
+using common::Timestamp;
 
 void passByConstReference(const Timestamp& x)
 {

@@ -9,7 +9,7 @@
 #include "noncopyable.h"
 #include <zlib.h>
 
-namespace muduo
+namespace common
 {
 
 class GzipFile : noncopyable
@@ -86,4 +86,4 @@ class GzipFile : noncopyable
   gzFile file_;
 };
 
-}  // namespace muduo
+}  // namespace common

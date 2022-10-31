@@ -3,14 +3,14 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_CONDITION_H
-#define MUDUO_BASE_CONDITION_H
+#ifndef common_BASE_CONDITION_H
+#define common_BASE_CONDITION_H
 
 #include "Mutex.h"
 
 #include <pthread.h>
 
-namespace muduo
+namespace common
 {
 
 class Condition : noncopyable
@@ -51,6 +51,6 @@ class Condition : noncopyable
   pthread_cond_t pcond_;
 };
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_CONDITION_H
+#endif  // common_BASE_CONDITION_H

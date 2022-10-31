@@ -18,7 +18,7 @@
 #include <sys/resource.h>
 #include <sys/times.h>
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -55,10 +55,10 @@ Timestamp g_startTime = Timestamp::now();
 int g_clockTicks = static_cast<int>(::sysconf(_SC_CLK_TCK));
 int g_pageSize = static_cast<int>(::sysconf(_SC_PAGE_SIZE));
 }  // namespace detail
-}  // namespace muduo
+}  // namespace common
 
-using namespace muduo;
-using namespace muduo::detail;
+using namespace common;
+using namespace common::detail;
 
 pid_t ProcessInfo::pid()
 {

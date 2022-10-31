@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-using namespace muduo;
+using namespace common;
 
 ThreadPool::ThreadPool(const string& nameArg)
   : mutex_(),
@@ -39,7 +39,7 @@ void ThreadPool::start(int numThreads)
   {
     char id[32];
     snprintf(id, sizeof id, "%d", i+1);
-    threads_.emplace_back(new muduo::Thread(
+    threads_.emplace_back(new common::Thread(
           std::bind(&ThreadPool::runInThread, this), name_+id));
     threads_[i]->start();
   }

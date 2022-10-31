@@ -20,8 +20,8 @@
 #include <inttypes.h>
 
 
-using namespace muduo;
-using namespace muduo::detail;
+using namespace common;
+using namespace common::detail;
 
 // TODO: better itoa.
 #if defined(__clang__)
@@ -30,7 +30,7 @@ using namespace muduo::detail;
 #pragma GCC diagnostic ignored "-Wtype-limits"
 #endif
 
-namespace muduo
+namespace common
 {
 namespace detail
 {
@@ -202,7 +202,7 @@ std::string formatIEC(int64_t s)
   return buf;
 }
 
-}  // namespace muduo
+}  // namespace common
 
 template<int SIZE>
 const char* FixedBuffer<SIZE>::debugString()

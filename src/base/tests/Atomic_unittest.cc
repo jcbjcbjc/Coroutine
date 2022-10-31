@@ -4,7 +4,7 @@
 int main()
 {
   {
-  muduo::AtomicInt64 a0;
+  common::AtomicInt64 a0;
   assert(a0.get() == 0);
   assert(a0.getAndAdd(1) == 0);
   assert(a0.get() == 1);
@@ -20,7 +20,7 @@ int main()
   }
 
   {
-  muduo::AtomicInt32 a1;
+  common::AtomicInt32 a1;
   assert(a1.get() == 0);
   assert(a1.getAndAdd(1) == 0);
   assert(a1.get() == 1);

@@ -6,7 +6,7 @@
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-using namespace muduo;
+using namespace common;
 
 const size_t N = 1000000;
 
