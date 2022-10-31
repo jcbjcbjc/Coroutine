@@ -1,3 +1,0 @@
-/root/csapp/coruntine/build/CMakeFiles/coroutine.dir
-/root/csapp/coruntine/build/CMakeFiles/edit_cache.dir
-/root/csapp/coruntine/build/CMakeFiles/rebuild_cache.dir
