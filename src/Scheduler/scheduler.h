@@ -43,8 +43,9 @@ class Scheduler {
 public:
     typedef std::function<void()> Functor;
 
-    Scheduler()
-    :readynum_(0),
+    Scheduler(size_t thread_num)
+    :threadNum_(thread_num),
+    readynum_(0),
     runningnum_(0),
     sleepnum_(0),
     looping_(false),
@@ -54,8 +55,16 @@ public:
     {}
     ~Scheduler(){}
 
+    void Start(){
+        threadPool_->start(threadNum_);
+
+        threadId_=CurrentThread::tid();
+
+        loop();
+    }
+
     template<typename... ARGS>
-    void CreateTask(void (*task)(),ARGS ...args) {
+    void CreateTask(void (*task)(),...){
         runInLoop(std::bind(
                 &Scheduler::CreateTaskInLoop,this,task,args...
                 ));
@@ -146,6 +155,8 @@ private:
     uint64_t runningnum_;
     uint64_t sleepnum_;
 
+    size_t threadNum_;
+
     ReadyQueue  readyQueue_;
     RunningQueue runningQueue_;
     SleepQueue sleepQueue_;
@@ -212,7 +223,7 @@ private:
     std::atomic<bool> looping_; /* atomic */
     std::atomic<bool> quit_;
     bool callingPendingFunctors_{}; /* atomic */
-    const pid_t threadId_;
+    pid_t threadId_;
     mutable MutexLock mutex_;
     std::vector<Functor> pendingFunctors_ GUARDED_BY(mutex_);
 };
