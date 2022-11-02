@@ -20,7 +20,8 @@ private:
     uint8_t stack[0x1000];
     uint64_t back;
     uint64_t self;
-    std::tuple<> para;
+    uint8_t para[0x100];
+    //std::tuple<> para;
     uint64_t rsp;
     uint64_t rbp;
     uint64_t rsi;
@@ -29,20 +30,21 @@ private:
     bool ended;
 
 public:
-     template <typename... ARGS>
-    Coroutine(void (*coroutine)(),ARGS&&... args)
+     //template <typename... ARGS>
+    Coroutine(void (*coroutine)())
             : rsp((uint64_t)&back), rbp(rsp), rip((uint64_t)(void *)coroutine),
               ended(false) {
-        para= std::make_tuple<ARGS...>(args...);
         back = (uint64_t)exit;
         self = (uint64_t)this;
-
     }
+     /*Coroutine(Coroutine&& coroutine){
+
+     }*/
     ~Coroutine() {}
 
     template <typename... ARGS>
-    static Coroutine make_coroutine(void (*coroutine)(),ARGS&&... args){
-       return Coroutine(coroutine,args...);
+    static Coroutine make_coroutine(void (*coroutine)(),ARGS... args){
+       return Coroutine(coroutine);
     }
 public:
     int invoke() {
@@ -61,10 +63,10 @@ public:
         return (int)0;
     }
 
-    //template <typename V>
-    /*void param(uint64_t index, V x) {
-        *(V *)(para + index) = x;
-    }*/
+    template <typename V>
+    void param(uint64_t index, V x) {
+        *(V *)(para+index)=x;
+    }
 
     bool eof() { return ended; }
 

@@ -22,10 +22,10 @@ struct Task{
     Timestamp delta_;
     //TODO    compare
 
-    template<typename... ARGS>
-    Task(void (*task)(),ARGS ...args)
+    Task(const Coroutine& coroutine)
     :runtime_(),
-    co_(task,args...),
+    //TODO    fixme
+    co_(coroutine),
     delta_()
     {
     }
@@ -50,7 +50,7 @@ public:
     sleepnum_(0),
     looping_(false),
      quit_(false),
-     threadId_(CurrentThread::tid()),
+     threadId_(0),
      threadPool_()
     {}
     ~Scheduler(){}
@@ -64,9 +64,11 @@ public:
     }
 
     template<typename... ARGS>
-    void CreateTask(void (*task)(),...){
+    void CreateTask(void (*task)(),ARGS... args){
+        Coroutine co=Coroutine::make_coroutine(task,args...);
+
         runInLoop(std::bind(
-                &Scheduler::CreateTaskInLoop,this,task,args...
+                &Scheduler::CreateTaskInLoop,this,co
                 ));
     }
     void CompleteTask(const TaskPtr& task) {
@@ -75,9 +77,8 @@ public:
                 ));
     }
 private:
-    template<typename... ARGS>
-    void CreateTaskInLoop(void (*task)(),ARGS ...args) {
-        TaskPtr taskPtr= make_shared<Task>(new Task(task,args...));
+    void CreateTaskInLoop(const Coroutine& coroutine) {
+        TaskPtr taskPtr(new Task(coroutine));
         readyQueue_.insert(taskPtr);
         readynum_++;
     }

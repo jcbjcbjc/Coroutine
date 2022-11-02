@@ -27,7 +27,7 @@ install(TARGETS common_base DESTINATION lib)
 #install(TARGETS common_base_cpp11 DESTINATION lib)
 
 file(GLOB HEADERS "*.h")
-#install(FILES ${HEADERS} DESTINATION include/common/base)
+install(FILES ${HEADERS} DESTINATION include/common/base)
 
 if(common_BUILD_EXAMPLES)
   add_subdirectory(tests)

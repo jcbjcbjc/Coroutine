@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.22.1)
-project(coroutine-c++ C CXX)
+cmake_minimum_required(VERSION 3.22)
+project(Coroutine)
 
 set(CMAKE_CXX_STANDARD 23)
 
-
-add_executable(coroutine-c++ main.cpp Scheduler/scheduler.h Coroutine/coroutine.h)
+add_executable(Coroutine main.cpp Scheduler/scheduler.h Coroutine/coroutine.h)
+target_link_libraries(Coroutine common_base)
 add_subdirectory(base)

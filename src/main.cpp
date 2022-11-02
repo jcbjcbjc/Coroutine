@@ -3,15 +3,18 @@
 int main() {
     // rsp >= 0x504000;
     // rsp <  0x700000;
-    Scheduler scheduler;
-    scheduler.CreateTask<int>(
+
+    CurrentThread::tid();
+
+    Scheduler scheduler(2);
+   /* scheduler.CreateTask<int>(
             [](){int a;},3
-            );
-    //scheduler.loop();
+            );*/
+    //scheduler.Start();
 
 
 
-    Coroutine::make_coroutine<int>([]() {
+    Coroutine temp= Coroutine::make_coroutine([]() {
         co_begin(co);
         //uint32_t cnt = co_arg(argv, uint32_t);
         co->yield(0);
