@@ -111,6 +111,9 @@ private:
 #define co_param(pointer,index) \
   std::get<index>(pointer->param())
 
+#define co_yield(co,x) \
+co->yield(x);
+
 #define co_begin(self,args...)                                     \
   Coroutine<args> *self;                                                       \
   asm("mov (%%rbp),%0\n"                                                       \

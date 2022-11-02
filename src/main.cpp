@@ -7,8 +7,8 @@ int main() {
     Coroutine temp= Coroutine<int>::make_coroutine([]() {
         co_begin(co,int);
         printf("%d\n",co_param(co,0));
-        co->yield(0);
-        co->yield(5);
+        co_yield(co,0);
+        co_yield(co,5);
         co_end(co);
     },3);
 
