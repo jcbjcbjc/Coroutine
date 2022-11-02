@@ -10,18 +10,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <tuple>
+#include <any>
 
 using namespace std;
 
 #define COROUTINE_ERROR 10
 
- class Coroutine {
+class Entity{
+public:
+    Entity(){}
+    virtual ~Entity(){}
+    virtual int invoke(){}
+    virtual bool eof(){}
+    virtual void yield(int x){}
+    virtual void end(){}
+};
+
+template <typename... ARGS>
+ class Coroutine :public Entity {
 private:
     uint8_t stack[0x1000];
     uint64_t back;
     uint64_t self;
-    uint8_t para[0x100];
-    //std::tuple<> para;
+    //uint8_t para[0x100];
+    std::tuple<ARGS...> para;
     uint64_t rsp;
     uint64_t rbp;
     uint64_t rsi;
@@ -30,10 +42,11 @@ private:
     bool ended;
 
 public:
-     //template <typename... ARGS>
-    Coroutine(void (*coroutine)())
+    Coroutine(void (*coroutine)(),ARGS... args)
             : rsp((uint64_t)&back), rbp(rsp), rip((uint64_t)(void *)coroutine),
               ended(false) {
+        //std::make_tuple(std::forward<Ts>(ts)...);
+        para= make_tuple(std::forward<ARGS>(args)...),
         back = (uint64_t)exit;
         self = (uint64_t)this;
     }
@@ -42,12 +55,11 @@ public:
      }*/
     ~Coroutine() {}
 
-    template <typename... ARGS>
     static Coroutine make_coroutine(void (*coroutine)(),ARGS... args){
-       return Coroutine(coroutine);
+       return Coroutine(coroutine,args...);
     }
 public:
-    int invoke() {
+    int invoke() override  {
         asm("mov 8(%%rbp),%5\n"
             "leave\n"
             "add $8,%%rsp\n"
@@ -63,15 +75,15 @@ public:
         return (int)0;
     }
 
-    template <typename V>
-    void param(uint64_t index, V x) {
-        *(V *)(para+index)=x;
-    }
+     //template<typename T>
+      std::tuple<ARGS...>& param() {
+        return para;
+     }
 
-    bool eof() { return ended; }
+     bool eof() override { return ended; }
 
 public:
-    void yield(int x) {
+     void yield(int x) override {
         asm("mov 8(%%rbp),%6\n"
             "leave\n"
             "add $8,%%rsp\n"
@@ -87,17 +99,20 @@ public:
                 :"%rsi","rdi");
     }
 
-    void end() {
+     void end() override {
         ended = true;
-        while (true)
-            this->yield((int)NULL);
+        //while (true)
+            //this->yield((int)NULL);
     }
 
 private:
     static void exit() { std::exit(COROUTINE_ERROR); }
 };
-#define co_begin(self)                                     \
-  Coroutine *self;                                                       \
+#define co_param(pointer,index) \
+  std::get<index>(pointer->param())
+
+#define co_begin(self,args...)                                     \
+  Coroutine<args> *self;                                                       \
   asm("mov (%%rbp),%0\n"                                                       \
       "mov 16(%0),%0\n"                                                        \
       : "=r"(self))

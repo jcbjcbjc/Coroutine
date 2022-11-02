@@ -17,15 +17,15 @@ using namespace common;
 
 struct Task{
     Timestamp runtime_;
-    Coroutine co_;
+    Entity entity_;
 
     Timestamp delta_;
     //TODO    compare
 
-    Task(const Coroutine& coroutine)
+    Task(const Entity& entity)
     :runtime_(),
     //TODO    fixme
-    co_(coroutine),
+    entity_(entity),
     delta_()
     {
     }
@@ -65,10 +65,10 @@ public:
 
     template<typename... ARGS>
     void CreateTask(void (*task)(),ARGS... args){
-        Coroutine co=Coroutine::make_coroutine(task,args...);
+        Entity entity=Coroutine<ARGS...>::make_coroutine(task,args...);
 
         runInLoop(std::bind(
-                &Scheduler::CreateTaskInLoop,this,co
+                &Scheduler::CreateTaskInLoop,this,entity
                 ));
     }
     void CompleteTask(const TaskPtr& task) {
@@ -77,8 +77,8 @@ public:
                 ));
     }
 private:
-    void CreateTaskInLoop(const Coroutine& coroutine) {
-        TaskPtr taskPtr(new Task(coroutine));
+    void CreateTaskInLoop(const Entity& entity) {
+        TaskPtr taskPtr(new Task(entity));
         readyQueue_.insert(taskPtr);
         readynum_++;
     }
@@ -87,7 +87,7 @@ private:
         //task->runtime_=task->delta_+task->runtime_;
         runningQueue_.erase(task);
         runningnum_--;
-        if(task->co_.eof()){
+        if(task->entity_.eof()){
 
         }else{
             readyQueue_.insert(task);
@@ -98,7 +98,7 @@ private:
     void runTask(const TaskPtr& task){
         threadPool_->run([&](){
             //TODO caltime
-            task->co_.invoke();
+            task->entity_.invoke();
 
             CompleteTask(task);
         });

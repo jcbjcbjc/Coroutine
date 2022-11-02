@@ -4,9 +4,9 @@ int main() {
     // rsp >= 0x504000;
     // rsp <  0x700000;
 
-    CurrentThread::tid();
+    //CurrentThread::tid();
 
-    Scheduler scheduler(2);
+    //Scheduler scheduler(2);
    /* scheduler.CreateTask<int>(
             [](){int a;},3
             );*/
@@ -14,15 +14,14 @@ int main() {
 
 
 
-    Coroutine temp= Coroutine::make_coroutine([]() {
-        co_begin(co);
-        //uint32_t cnt = co_arg(argv, uint32_t);
+    Coroutine temp= Coroutine<int>::make_coroutine([]() {
+        co_begin(co,int);
+        printf("%d\n",co_param(co,0));
         co->yield(0);
         co->yield(5);
-        //co->yield(cnt);
-        //printf("%d\n", cnt);
-        //for (int i = 0; i < cnt; i++)
-        //co->yield(i);
+
+        //printf("%d\n",std::get<0>(co->param()));
+
         co_end(co);
     },3);
 
