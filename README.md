@@ -16,4 +16,8 @@ c++的有栈实现，实现了单个协程最基本的控制操作，以及提�
 ```
 co_begin(co,int) 传入之后要用的对象和lamda表达式的参数类型
 co_param(co,index) 用来获取传入的第index参数
-co_yield(co,x)  用来传递
+co_yield(co,x)  用来传递控制权返回调用者等待下一次重入，交换上下文
+co_end 表示协程的结束
+invoke 重入上一次返回的位置，交换上下文切换到协程的上下文
+- 托管到Scheduler实现多协程并发
+
