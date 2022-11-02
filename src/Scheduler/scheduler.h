@@ -51,7 +51,7 @@ public:
     looping_(false),
      quit_(false),
      threadId_(0),
-     threadPool_()
+     threadPool_(new ThreadPool())
     {}
     ~Scheduler(){}
 
