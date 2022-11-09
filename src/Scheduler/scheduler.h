@@ -65,6 +65,12 @@ public:
 
     template<typename... ARGS>
     void CreateTask(void (*task)(),ARGS... args){
+        (analyseArgs(args),...);
+
+        //std::tuple<ARGS...> para=make_tuple(std::forward<ARGS>(args)...);
+        //int size=std::tuple_size<decltype(para)>();
+        //std::apply([this](auto&... arg){(( analyseArgs(arg)),...);},para);
+
         Entity entity=Coroutine<ARGS...>::make_coroutine(task,args...);
 
         runInLoop(std::bind(
@@ -146,6 +152,14 @@ private:
         }
     }
 
+    template<typename T>
+    void analyseArgs(T& arg){
+        if(dynamic_cast<int>(arg)){
+
+
+        }
+    }
+
     void quit(){
         quit_ = true;
     }
@@ -161,8 +175,6 @@ private:
     ReadyQueue  readyQueue_;
     RunningQueue runningQueue_;
     SleepQueue sleepQueue_;
-
-
 
     void abortNotInLoopThread(){
         LOG_FATAL << "EventLoop::abortNotInLoopThread - EventLoop " << this
