@@ -65,6 +65,8 @@ public:
 
     template<typename... ARGS>
     void CreateTask(void (*task)(),ARGS... args){
+        //TODO fixme
+        ///analyse args
         (analyseArgs(args),...);
 
         //std::tuple<ARGS...> para=make_tuple(std::forward<ARGS>(args)...);
@@ -155,8 +157,7 @@ private:
     template<typename T>
     void analyseArgs(T& arg){
         if(dynamic_cast<int>(arg)){
-
-
+            printf("int");
         }
     }
 
