@@ -42,7 +42,7 @@ private:
     bool ended;
 
 public:
-    Coroutine(void (*coroutine)(),ARGS... args)
+    Coroutine(void (*coroutine)(),ARGS&&... args)
             : rsp((uint64_t)&back), rbp(rsp), rip((uint64_t)(void *)coroutine),
               ended(false) {
         //std::make_tuple(std::forward<Ts>(ts)...);
@@ -55,9 +55,12 @@ public:
      }*/
     ~Coroutine() {}
 
-    static Coroutine make_coroutine(void (*coroutine)(),ARGS... args){
-       return Coroutine(coroutine,args...);
+    static Coroutine make_coroutine(void (*coroutine)(),ARGS&... args){
+       return Coroutine(coroutine,std::move(args)...);
     }
+     static Coroutine make_coroutine(void (*coroutine)(),ARGS&&... args){
+         return Coroutine(coroutine,std::move(args)...);
+     }
 public:
     int invoke() override  {
         asm("mov 8(%%rbp),%5\n"

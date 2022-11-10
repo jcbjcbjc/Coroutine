@@ -156,7 +156,7 @@ private:
 
     template<typename T>
     void analyseArgs(T& arg){
-        if(dynamic_cast<int>(arg)){
+        if(typeid(arg)== typeid(int)){
             printf("int");
         }
     }
