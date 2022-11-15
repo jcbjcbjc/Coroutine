@@ -20,7 +20,6 @@ struct Task{
     Entity entity_;
 
     Timestamp delta_;
-    //TODO    compare
 
     Task(const Entity& entity)
     :runtime_(),
@@ -30,7 +29,15 @@ struct Task{
     {
     }
 
+    bool operator<(const Task& b) const  {
+        return this->runtime_ < b.runtime_;
+    }
+    friend	bool operator <(const shared_ptr< Task>& left, const shared_ptr< Task>&  right)
+    {
+        return left->runtime_<right->runtime_;
+    }
 };
+
 typedef std::shared_ptr<ThreadPool> ThreadPoolPtr;
 typedef std::shared_ptr<Task> TaskPtr;
 typedef std::set<TaskPtr> ReadyQueue;
@@ -91,10 +98,14 @@ private:
         readynum_++;
     }
     void CompleteTaskInLoop(const TaskPtr& task) {
-        //TODO timeincrement
-        //task->runtime_=task->delta_+task->runtime_;
+        ///leave the runningQueue
         runningQueue_.erase(task);
         runningnum_--;
+
+//TODO timeincrement
+        ///update the cost and the rank
+        //task->runtime_=task->delta_+task->runtime_;
+
         if(task->entity_.eof()){
 
         }else{
