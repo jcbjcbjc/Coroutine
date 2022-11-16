@@ -35,6 +35,8 @@ invoke 重入上一次返回的位置，交换上下文切换到协程的上下�
 - 1,创建Scheduler 参数为开启的线程池中的线程数
 - 2，另外开启一个线程用来启动Scheduler 调用Start()
 - 3,使用提供的CreateTask托管协程，模板参数为lamda参数类型
+## Update
+- 协程之间的通信机制
 ## Implementation
 使用的主要技术手段：
 - asm嵌入式汇编
