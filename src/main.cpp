@@ -11,11 +11,20 @@ int main() {
         printf("%d\n",co_param(co,0));
         co_yield(co,0);
         co_yield(co,5);
+
+
+        ///test
+        co->SetAwaitMode(AwaitMode::AwaitForNotifyWithTimeout);
+        //sendrequest
+        co_yield(co,0);
+        //handle
+
+
+
         co_end(co);
     },3);
 
     temp.invoke();
-
 
     Scheduler scheduler(2);
 
