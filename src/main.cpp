@@ -1,5 +1,7 @@
 #include "Coroutine/coroutine.h"
 #include "Scheduler/scheduler.h"
+using namespace coroutine;
+
 int main() {
     // rsp >= 0x504000;
     // rsp <  0x700000;
