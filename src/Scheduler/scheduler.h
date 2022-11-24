@@ -78,20 +78,23 @@ namespace coroutine{
         }
     private:
         void CreateTaskInLoop(const Entity& entity) {
-            TaskPtr taskPtr(new Task(entity));
+            TaskPtr taskPtr(new Task(this,entity));
             AddTask(taskPtr);
         }
         void CompleteTaskInLoop(const TaskPtr& task) {
             ///leave the runningQueue
             runningQueue_.erase(task);
             runningnum_--;
+            task->SetStatus(TaskStatus::Nothing);
 
 //TODO timeincrement
             ///update the cost and the rank
             //task->runtime_=task->delta_+task->runtime_;
 
             if(task->entity_.eof()){
-                LOG_WARN<<"task eof";
+                task->SetStatus(TaskStatus::End);
+
+                LOG_WARN<<"task end";
             }else{
                 AddTask(task);
             }
@@ -105,6 +108,7 @@ namespace coroutine{
                 case AwaitNever:
                     readyQueue_.insert(task);
                     readynum_++;
+                    task->SetStatus(TaskStatus::Ready);
 
                     break;
                 case AwaitForNotifyNoTimeout:
@@ -121,6 +125,7 @@ namespace coroutine{
 
             awaitQueue_.insert(task);
             awaitnum_++;
+            task->SetStatus(TaskStatus::Await);
 
         }
 
@@ -132,12 +137,14 @@ namespace coroutine{
 
                 readyQueue_.insert(task);
                 readynum_++;
+                task->SetStatus(TaskStatus::Ready);
             }else{
                 LOG_WARN<<"can't find awaitTask";
             }
         }
 
         void runTask(const TaskPtr& task){
+            task->SetStatus(TaskStatus::Running);
             threadPool_->run([&](){
                 //TODO caltime
                 task->entity_.invoke();

@@ -12,6 +12,15 @@
 using namespace common;
 
 namespace coroutine{
+    enum TaskStatus{
+        Running,
+        Ready,
+        Await,
+        Nothing,
+        End
+    };
+
+
     class TaskIdAllocator{
     public:
         TaskIdAllocator()
@@ -52,6 +61,7 @@ namespace coroutine{
 
 
 
+    class Scheduler;
 
     class Task :enable_shared_from_this<Task>{
         friend class Scheduler;
@@ -63,10 +73,11 @@ namespace coroutine{
         Timestamp runtime_;
         Timestamp delta_;
 
-        explicit Task(const Entity& entity)
+        explicit Task(Scheduler* manager,const Entity& entity)
                 :taskId_(TASK_ID_ALLOCATOR.alloc()),
                 runtime_(),
                 //TODO    fixme
+                mManager_(manager),
                  entity_(entity),
                  delta_()
         {
@@ -83,25 +94,36 @@ namespace coroutine{
             return left->runtime_<right->runtime_;
         }
 
-        Timestamp GetAwaitTimeout(){
-            return entity_.awaitTimeout_;
-        }
 
-        void invoke(){
-            entity_.invoke();
-        }
+        Timestamp GetAwaitTimeout(){return entity_.awaitTimeout_;}
 
-        uint64_t GetTaskId(){
-            return taskId_;
-        }
 
-        AwaitMode GetAwaitMode(){
-            return entity_.awaitMode_;
-        }
-        void SetAwaitMode(AwaitMode mode){
-            entity_.awaitMode_=mode;
-        }
+        void invoke(){entity_.invoke();}
+
+
+        uint64_t GetTaskId(){return taskId_;}
+
+
+        AwaitMode GetAwaitMode(){return entity_.awaitMode_;}
+
+
+        void SetAwaitMode(AwaitMode mode){entity_.awaitMode_=mode;}
+
+
+        Scheduler* GetManager(){return mManager_;}
+
+
+        void AwakeMeFromAwait();
+
+
+        void SetStatus(TaskStatus status){status_=status;}
+
+
+        TaskStatus GetStatus(){return status_;}
     private:
+        TaskStatus status_;
+
+        Scheduler* mManager_;
         ResumeObject resumeObject_;
         Entity entity_;
     };
