@@ -3,8 +3,8 @@
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef MUDUO_BASE_TIMESTAMP_H
-#define MUDUO_BASE_TIMESTAMP_H
+#ifndef common_BASE_TIMESTAMP_H
+#define common_BASE_TIMESTAMP_H
 
 #include "copyable.h"
 #include "Types.h"
@@ -114,6 +114,6 @@ namespace common
         return Timestamp(timestamp.microSecondsSinceEpoch() + delta);
     }
 
-}  // namespace muduo
+}  // namespace common
 
-#endif  // MUDUO_BASE_TIMESTAMP_H
+#endif  // common_BASE_TIMESTAMP_H

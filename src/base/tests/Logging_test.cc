@@ -1,7 +1,7 @@
-#include "../Logging.h"
-#include "../LogFile.h"
-#include "../ThreadPool.h"
-#include "../TimeZone.h"
+#include "Logging.h"
+#include "LogFile.h"
+#include "ThreadPool.h"
+#include "TimeZone.h"
 
 #include <stdio.h>
 #include <unistd.h>

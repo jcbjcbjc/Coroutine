@@ -1,5 +1,5 @@
-#include "../TimeZone.h"
-#include "../Types.h"
+#include "TimeZone.h"
+#include "Types.h"
 
 #include <assert.h>
 #include <stdio.h>

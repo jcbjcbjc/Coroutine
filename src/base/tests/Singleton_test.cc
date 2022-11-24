@@ -1,6 +1,6 @@
-#include "../Singleton.h"
-#include "../CurrentThread.h"
-#include "../Thread.h"
+#include "Singleton.h"
+#include "CurrentThread.h"
+#include "Thread.h"
 
 #include <stdio.h>
 

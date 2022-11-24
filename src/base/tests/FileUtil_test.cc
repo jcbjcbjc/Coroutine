@@ -1,4 +1,4 @@
-#include "../FileUtil.h"
+#include "FileUtil.h"
 
 #include <stdio.h>
 #define __STDC_FORMAT_MACROS

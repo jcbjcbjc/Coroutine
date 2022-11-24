@@ -1,5 +1,5 @@
-#include "../CurrentThread.h"
-#include "../Exception.h"
+#include "CurrentThread.h"
+#include "Exception.h"
 #include <functional>
 #include <vector>
 #include <stdio.h>

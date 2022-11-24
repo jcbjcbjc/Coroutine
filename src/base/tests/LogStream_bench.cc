@@ -1,5 +1,5 @@
-#include "../LogStream.h"
-#include "../Timestamp.h"
+#include "LogStream.h"
+#include "Timestamp.h"
 
 #include <sstream>
 #include <stdio.h>

@@ -1,6 +1,6 @@
-#include "../GzipFile.h"
+#include "GzipFile.h"
 
-#include "../Logging.h"
+#include "Logging.h"
 
 int main()
 {

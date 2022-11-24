@@ -1,4 +1,4 @@
-#include "../CurrentThread.h"
+#include "CurrentThread.h"
 
 #include <stdio.h>
 #include <sys/types.h>

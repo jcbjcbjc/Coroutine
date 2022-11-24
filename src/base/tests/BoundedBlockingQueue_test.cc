@@ -1,6 +1,6 @@
-#include "../BoundedBlockingQueue.h"
-#include "../CountDownLatch.h"
-#include "../Thread.h"
+#include "BoundedBlockingQueue.h"
+#include "CountDownLatch.h"
+#include "Thread.h"
 
 #include <string>
 #include <vector>

@@ -1,9 +1,9 @@
-#include "../Atomic.h"
-#include "../BlockingQueue.h"
-#include "../CurrentThread.h"
-#include "../Mutex.h"
-#include "../Thread.h"
-#include "../Timestamp.h"
+#include "Atomic.h"
+#include "BlockingQueue.h"
+#include "CurrentThread.h"
+#include "Mutex.h"
+#include "Thread.h"
+#include "Timestamp.h"
 
 #include <map>
 #include <string>

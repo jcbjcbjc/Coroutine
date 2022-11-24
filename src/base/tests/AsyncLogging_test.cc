@@ -1,6 +1,6 @@
-#include "../AsyncLogging.h"
-#include "../Logging.h"
-#include "../Timestamp.h"
+#include "AsyncLogging.h"
+#include "Logging.h"
+#include "Timestamp.h"
 
 #include <stdio.h>
 #include <sys/resource.h>

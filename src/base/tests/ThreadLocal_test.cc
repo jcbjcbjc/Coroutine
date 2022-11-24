@@ -1,6 +1,6 @@
-#include "../ThreadLocal.h"
-#include "../CurrentThread.h"
-#include "../Thread.h"
+#include "ThreadLocal.h"
+#include "CurrentThread.h"
+#include "Thread.h"
 
 #include <stdio.h>
 

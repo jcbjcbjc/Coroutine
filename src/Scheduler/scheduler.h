@@ -4,10 +4,18 @@
 
 #ifndef COROUTINE_SCHEDULER_H
 #define COROUTINE_SCHEDULER_H
+<<<<<<< Updated upstream
 #include "../Coroutine/coroutine.h"
 #include "../base/ThreadPool.h"
 #include "../base/Timestamp.h"
 #include "../base/Logging.h"
+=======
+#include "Coroutine/coroutine.h"
+#include "base/ThreadPool.h"
+#include "base/Timestamp.h"
+#include "base/Logging.h"
+#include "Task/task.h"
+>>>>>>> Stashed changes
 #include <set>
 #include <any>
 #include <memory>

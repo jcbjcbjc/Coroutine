@@ -1,7 +1,7 @@
-#include "../BlockingQueue.h"
-#include "../CountDownLatch.h"
-#include "../Thread.h"
-#include "../Timestamp.h"
+#include "BlockingQueue.h"
+#include "CountDownLatch.h"
+#include "Thread.h"
+#include "Timestamp.h"
 
 #include <map>
 #include <string>

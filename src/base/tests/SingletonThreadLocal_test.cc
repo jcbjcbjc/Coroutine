@@ -1,7 +1,7 @@
-#include "../Singleton.h"
-#include "../CurrentThread.h"
-#include "../ThreadLocal.h"
-#include "../Thread.h"
+#include "Singleton.h"
+#include "CurrentThread.h"
+#include "ThreadLocal.h"
+#include "Thread.h"
 
 #include <stdio.h>
 #include <unistd.h>
