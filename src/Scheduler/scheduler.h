@@ -4,18 +4,18 @@
 
 #ifndef COROUTINE_SCHEDULER_H
 #define COROUTINE_SCHEDULER_H
-<<<<<<< Updated upstream
+
 #include "../Coroutine/coroutine.h"
 #include "../base/ThreadPool.h"
 #include "../base/Timestamp.h"
 #include "../base/Logging.h"
-=======
+
 #include "Coroutine/coroutine.h"
 #include "base/ThreadPool.h"
 #include "base/Timestamp.h"
 #include "base/Logging.h"
 #include "Task/task.h"
->>>>>>> Stashed changes
+
 #include <set>
 #include <any>
 #include <memory>
@@ -23,34 +23,12 @@
 
 using namespace common;
 namespace coroutine{
-    struct Task{
-        Timestamp runtime_;
-        Entity entity_;
-
-        Timestamp delta_;
-
-        Task(const Entity& entity)
-                :runtime_(),
-                //TODO    fixme
-                 entity_(entity),
-                 delta_()
-        {
-        }
-
-        bool operator<(const Task& b) const  {
-            return this->runtime_ < b.runtime_;
-        }
-        friend	bool operator <(const shared_ptr< Task>& left, const shared_ptr< Task>&  right)
-        {
-            return left->runtime_<right->runtime_;
-        }
-    };
 
     typedef std::shared_ptr<ThreadPool> ThreadPoolPtr;
     typedef std::shared_ptr<Task> TaskPtr;
     typedef std::set<TaskPtr> ReadyQueue;
     typedef std::set<TaskPtr> RunningQueue;
-    typedef std::set<TaskPtr> SleepQueue;
+    typedef std::set<TaskPtr> AwaitQueue;
 
     const uint32_t MAX_RUN_NUM=10;
 
@@ -62,7 +40,8 @@ namespace coroutine{
                 :threadNum_(thread_num),
                  readynum_(0),
                  runningnum_(0),
-                 sleepnum_(0),
+                 awaitnum_(0),
+                 taskIdAllocator_(),
                  looping_(false),
                  quit_(false),
                  threadId_(0),
@@ -99,30 +78,80 @@ namespace coroutine{
                     &Scheduler::CompleteTaskInLoop,this,task
             ));
         }
+        void AwakeTaskByNotify(const TaskPtr& task){
+            runInLoop(std::bind(
+                    &Scheduler::AwakeTaskByNotifyInLoop,this,task
+            ));
+        }
     private:
         void CreateTaskInLoop(const Entity& entity) {
-            TaskPtr taskPtr(new Task(entity));
-            readyQueue_.insert(taskPtr);
-            readynum_++;
+            TaskPtr taskPtr(new Task(this,entity));
+            AddTask(taskPtr);
         }
         void CompleteTaskInLoop(const TaskPtr& task) {
             ///leave the runningQueue
             runningQueue_.erase(task);
             runningnum_--;
+            task->SetStatus(TaskStatus::Nothing);
 
 //TODO timeincrement
             ///update the cost and the rank
             //task->runtime_=task->delta_+task->runtime_;
 
             if(task->entity_.eof()){
+                task->SetStatus(TaskStatus::End);
 
+                LOG_WARN<<"task end";
             }else{
+                AddTask(task);
+            }
+        }
+
+        void AddTask(const TaskPtr& task){
+            auto awaitMode=task->GetAwaitMode();
+            auto awaitTimeout=task->GetAwaitTimeout();
+
+            switch (awaitMode) {
+                case AwaitNever:
+                    readyQueue_.insert(task);
+                    readynum_++;
+                    task->SetStatus(TaskStatus::Ready);
+
+                    break;
+                case AwaitForNotifyNoTimeout:
+                case AwaitForNotifyWithTimeout:
+                    HandleTaskAwaitForNotify(task,awaitMode,awaitTimeout);
+                    break;
+                default:
+                    LOG_WARN<<"lack of awaitMode";
+                    break;
+            }
+        }
+
+        void HandleTaskAwaitForNotify(const TaskPtr& task,AwaitMode awaitMode,Timestamp awaitTimeoutMs){
+
+            awaitQueue_.insert(task);
+            awaitnum_++;
+            task->SetStatus(TaskStatus::Await);
+
+        }
+
+        void AwakeTaskByNotifyInLoop(const TaskPtr& task){
+            auto it= awaitQueue_.find(task);
+            if (it !=awaitQueue_.end()){
+                awaitQueue_.erase(*it);
+                awaitnum_--;
+
                 readyQueue_.insert(task);
                 readynum_++;
+                task->SetStatus(TaskStatus::Ready);
+            }else{
+                LOG_WARN<<"can't find awaitTask";
             }
         }
 
         void runTask(const TaskPtr& task){
+            task->SetStatus(TaskStatus::Running);
             threadPool_->run([&](){
                 //TODO caltime
                 task->entity_.invoke();
@@ -188,13 +217,14 @@ namespace coroutine{
 
         uint64_t readynum_;
         uint64_t runningnum_;
-        uint64_t sleepnum_;
+        uint64_t awaitnum_;
 
         size_t threadNum_;
 
         ReadyQueue  readyQueue_;
         RunningQueue runningQueue_;
-        SleepQueue sleepQueue_;
+        AwaitQueue awaitQueue_;
+        TaskIdAllocator taskIdAllocator_;
 
         void abortNotInLoopThread(){
             LOG_FATAL << "EventLoop::abortNotInLoopThread - EventLoop " << this

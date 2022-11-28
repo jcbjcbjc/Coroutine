@@ -12,26 +12,79 @@
 using namespace common;
 
 namespace coroutine{
-    enum AwaitMode{
-
-
+    enum TaskStatus{
+        Running,
+        Ready,
+        Await,
+        Nothing,
+        End
     };
 
-    class Task{
+
+    class TaskIdAllocator{
+    public:
+        TaskIdAllocator()
+                : recycled(),
+                  current(0)
+        {
+        }
+
+        uint64_t alloc(){
+            if(!recycled.empty()){
+                uint64_t id =recycled.back();
+                recycled.pop_back();
+                return id;
+            }else{
+                return current++;
+            }
+        }
+        void dealloc(uint64_t id){
+            if (id>=current){
+                return;
+            }
+
+            if(std::find(recycled.begin(), recycled.end(), id) != recycled.end()){
+                return;
+            }
+
+            recycled.push_back(id);
+        }
+    private:
+        std::vector<uint64_t> recycled;
+        uint64_t current;
+    };
+
+
+
+
+    static TaskIdAllocator TASK_ID_ALLOCATOR=TaskIdAllocator();
+
+
+
+    class Scheduler;
+
+    class Task :enable_shared_from_this<Task>{
         friend class Scheduler;
     public:
         typedef std::any ResumeObject;
 
+
+        uint64_t  taskId_;
         Timestamp runtime_;
         Timestamp delta_;
-        AwaitMode awaitMode_;
 
-        explicit Task(const Entity& entity)
-                :runtime_(),
+        explicit Task(Scheduler* manager,const Entity& entity)
+                :taskId_(TASK_ID_ALLOCATOR.alloc()),
+                 runtime_(),
                 //TODO    fixme
+                 mManager_(manager),
                  entity_(entity),
                  delta_()
         {
+            entity_.SetTask(shared_from_this());
+        }
+        ~Task(){
+            TASK_ID_ALLOCATOR.dealloc(taskId_);
         }
         bool operator<(const Task& b) const  {
             return this->runtime_ < b.runtime_;
@@ -41,19 +94,9 @@ namespace coroutine{
             return left->runtime_<right->runtime_;
         }
 
-        void invoke(){
-            entity_.invoke();
-        }
 
-<<<<<<< Updated upstream
-        AwaitMode GetAwaitMode(){
-            return awaitMode_;
-        }
-=======
         Timestamp GetAwaitTimeout(){return entity_.awaitTimeout_;}
 
-
-        void yield(){entity_.yield(0);}
 
         void invoke(){entity_.invoke();}
 
@@ -67,10 +110,6 @@ namespace coroutine{
         void SetAwaitMode(AwaitMode mode){entity_.awaitMode_=mode;}
 
 
-        template<typename T>
-        T& GetResumeObj(){return static_cast<T>(resumeObject_);}
-
-
         Scheduler* GetManager(){return mManager_;}
 
 
@@ -81,8 +120,10 @@ namespace coroutine{
 
 
         TaskStatus GetStatus(){return status_;}
->>>>>>> Stashed changes
     private:
+        TaskStatus status_;
+
+        Scheduler* mManager_;
         ResumeObject resumeObject_;
         Entity entity_;
     };

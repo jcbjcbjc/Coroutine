@@ -9,10 +9,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< Updated upstream
-=======
+
 #include "base/Timestamp.h"
->>>>>>> Stashed changes
+
 #include <tuple>
 #include <any>
 
@@ -21,15 +20,51 @@ using namespace std;
 #define COROUTINE_ERROR 10
 
 namespace coroutine{
+    enum AwaitMode{
+        AwaitNever,
+        AwaitForNotifyNoTimeout,
+        AwaitForNotifyWithTimeout,
+    };
+
+
+
+    class Task;
+
     class Entity{
     public:
-        Entity(){}
+
+        AwaitMode awaitMode_;
+        common::Timestamp awaitTimeout_;
+        std::weak_ptr<Task> mTask_;
+        Entity(){
+            awaitMode_=AwaitMode::AwaitNever;
+        }
         virtual ~Entity(){}
         virtual int invoke(){}
         virtual bool eof(){}
+        virtual void await(){}
         virtual void yield(int x){}
         virtual void end(){}
+
+
+        void SetTask(const std::weak_ptr<Task>& task){
+            mTask_=task;
+        }
+        //TODO FIXME
+        std::shared_ptr<Task> GetTask(){
+            std::shared_ptr<Task>ptr (mTask_.lock());
+            if(ptr){
+                return ptr;
+            }else{
+                return nullptr;
+            }
+        }
+
+        void SetAwaitMode(AwaitMode mode){
+            awaitMode_=mode;
+        }
     };
+
 
     template <typename... ARGS>
     class Coroutine :public Entity {
