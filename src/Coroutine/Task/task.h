@@ -98,6 +98,9 @@ namespace coroutine{
         Timestamp GetAwaitTimeout(){return entity_.awaitTimeout_;}
 
 
+        void yield(){entity_.yield(0);}
+
+
         void invoke(){entity_.invoke();}
 
 

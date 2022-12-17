@@ -4,17 +4,17 @@
 
 #ifndef COROUTINE_SCHEDULER_H
 #define COROUTINE_SCHEDULER_H
+#include "Coroutine/coroutine.h"
 
-#include "../Coroutine/coroutine.h"
-#include "../base/ThreadPool.h"
-#include "../base/Timestamp.h"
-#include "../base/Logging.h"
+#include "base/ThreadPool.h"
+#include "base/Timestamp.h"
+#include "base/Logging.h"
 
 #include "Coroutine/coroutine.h"
 #include "base/ThreadPool.h"
 #include "base/Timestamp.h"
 #include "base/Logging.h"
-#include "Task/task.h"
+#include "Coroutine/Task/task.h"
 
 #include <set>
 #include <any>

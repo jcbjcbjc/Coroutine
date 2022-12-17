@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.22)
-project(Coroutine)
+project(Coroutine-jcb)
 
 set(CMAKE_CXX_STANDARD 23)
 
+add_executable(test main.cpp )
 
-add_executable(Coroutine main.cpp Scheduler/scheduler.h Coroutine/coroutine.h Task/task.h Task/task.cpp)
+target_link_libraries(test Coroutine_base)
 
-target_link_libraries(Coroutine common_base)
 add_subdirectory(base)
-
+add_subdirectory(Coroutine)
 add_subdirectory(examples/RPC)
 
 include_directories(${PROJECT_SOURCE_DIR})
