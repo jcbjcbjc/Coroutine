@@ -23,5 +23,10 @@ int main() {
     scheduler.CreateTask<int>(
             [](){int a;},3
     );
+
+
+    scheduler.CreateTask<int,double,float>(
+                [](){int a;},1,1,1);
+
     return 0;
 }
