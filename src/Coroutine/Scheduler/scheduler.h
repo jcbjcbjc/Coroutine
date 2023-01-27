@@ -14,6 +14,7 @@
 #include "base/ThreadPool.h"
 #include "base/Timestamp.h"
 #include "base/Logging.h"
+#include "base/noncopyable.h"
 #include "Coroutine/Task/task.h"
 
 #include <set>
@@ -32,7 +33,7 @@ namespace coroutine{
 
     const uint32_t MAX_RUN_NUM=10;
 
-    class Scheduler {
+    class Scheduler:noncopyable {
     public:
         typedef std::function<void()> Functor;
 

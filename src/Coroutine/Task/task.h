@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "base/Timestamp.h"
+#include "base/noncopyable.h"
 #include "Coroutine/coroutine.h"
 
 using namespace common;
@@ -63,7 +64,7 @@ namespace coroutine{
 
     class Scheduler;
 
-    class Task :enable_shared_from_this<Task>{
+    class Task :enable_shared_from_this<Task>,noncopyable{
         friend class Scheduler;
     public:
         typedef std::any ResumeObject;

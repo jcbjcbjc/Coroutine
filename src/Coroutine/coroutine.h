@@ -27,7 +27,6 @@ namespace coroutine{
     };
 
 
-
     class Task;
 
     class Entity{
