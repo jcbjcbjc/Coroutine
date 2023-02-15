@@ -90,9 +90,9 @@ namespace coroutine{
         bool operator<(const Task& b) const  {
             return this->runtime_ < b.runtime_;
         }
-        friend	bool operator <(const shared_ptr< Task>& left, const shared_ptr< Task>&  right)
+        bool operator <(const shared_ptr< Task>&  right)
         {
-            return left->runtime_<right->runtime_;
+            return this->runtime_<right->runtime_;
         }
 
 
