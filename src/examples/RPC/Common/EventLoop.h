@@ -15,8 +15,7 @@
 #include <functional>
 #include <vector>
 
-#include <boost/any.hpp>
-
+#include<any>
 #include "base/Mutex.h"
 #include "base/CurrentThread.h"
 #include "base/Timestamp.h"
@@ -117,13 +116,13 @@ class EventLoop : noncopyable
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
   bool eventHandling() const { return eventHandling_; }
 
-  void setContext(const boost::any& context)
+  void setContext(const std::any& context)
   { context_ = context; }
 
-  const boost::any& getContext() const
+  const std::any& getContext() const
   { return context_; }
 
-  boost::any* getMutableContext()
+  std::any* getMutableContext()
   { return &context_; }
 
   static EventLoop* getEventLoopOfCurrentThread();
@@ -150,7 +149,7 @@ class EventLoop : noncopyable
   // unlike in TimerQueue, which is an internal class,
   // we don't expose Channel to client.
   std::unique_ptr<Channel> wakeupChannel_;
-  boost::any context_;
+  std::any context_;
 
   // scratch variables
   ChannelList activeChannels_;
