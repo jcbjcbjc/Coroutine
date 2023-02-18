@@ -1,10 +1,3 @@
-include(CheckFunctionExists)
-
-check_function_exists(accept4 HAVE_ACCEPT4)
-if(NOT HAVE_ACCEPT4)
-  set_source_files_properties(SocketsOps.cc PROPERTIES COMPILE_FLAGS "-DNO_ACCEPT4")
-endif()
-
 #add_library(common_net ${net_SRCS})
 #target_link_libraries(common_net common_base)
 
@@ -31,10 +24,4 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 if(common_BUILD_EXAMPLES)
   add_subdirectory(tests)
-endif()
-
-if(PROTOBUF_FOUND)
-  add_subdirectory(protobuf)
-else()
-  add_subdirectory(protobuf EXCLUDE_FROM_ALL)
 endif()

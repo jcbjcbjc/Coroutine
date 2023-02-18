@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include <boost/any.hpp>
+#include <any>
 
 // struct tcp_info is in <netinet/tcp.h>
 struct tcp_info;
@@ -77,13 +77,13 @@ class TcpConnection : noncopyable,
   void stopRead();
   bool isReading() const { return reading_; }; // NOT thread safe, may race with start/stopReadInLoop
 
-  void setContext(const boost::any& context)
+  void setContext(const std::any& context)
   { context_ = context; }
 
-  const boost::any& getContext() const
+  const std::any& getContext() const
   { return context_; }
 
-  boost::any* getMutableContext()
+  std::any* getMutableContext()
   { return &context_; }
 
   void setConnectionCallback(const ConnectionCallback& cb)
@@ -148,7 +148,7 @@ class TcpConnection : noncopyable,
   size_t highWaterMark_;
   Buffer inputBuffer_;
   Buffer outputBuffer_; // FIXME: use list<Buffer> as output buffer.
-  boost::any context_;
+  std::any context_;
   // FIXME: creationTime_, lastReceiveTime_
   //        bytesReceived_, bytesSent_
 };

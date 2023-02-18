@@ -7,6 +7,7 @@
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
 
 #include "EPollPoller.h"
+
 #include "base/Logging.h"
 #include "../Channel.h"
 

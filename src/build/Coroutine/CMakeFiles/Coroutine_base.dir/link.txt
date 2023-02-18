@@ -1,0 +1,2 @@
+/usr/bin/ar qc libCoroutine_base.a CMakeFiles/Coroutine_base.dir/Task/task.cpp.o
+/usr/bin/ranlib libCoroutine_base.a

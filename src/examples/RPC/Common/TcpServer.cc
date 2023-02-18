@@ -35,7 +35,17 @@ TcpServer::TcpServer(EventLoop* loop,
   acceptor_->setNewConnectionCallback(
       std::bind(&TcpServer::newConnection, this, _1, _2));
 }
-
+TcpServer::TcpServer(EventLoop* loop,
+                     const InetAddress& listenAddr,
+                     const string& nameArg,
+                     std::shared_ptr<EventLoopThreadPool> sharedThreadPool,
+                     Option option)
+        : TcpServer(loop, listenAddr, nameArg, option)
+{
+    assert(sharedThreadPool);
+    assert(sharedThreadPool->started());
+    threadPool_ = sharedThreadPool;
+}
 TcpServer::~TcpServer()
 {
   loop_->assertInLoopThread();

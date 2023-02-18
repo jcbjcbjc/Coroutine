@@ -56,22 +56,22 @@ EventLoop* EventLoopThread::startLoop()
 
 void EventLoopThread::threadFunc()
 {
-  EventLoop loop;
+    EventLoop loop;
 
-  if (callback_)
-  {
-    callback_(&loop);
-  }
+    if (callback_)
+    {
+        callback_(&loop);
+    }
 
-  {
+    {
+        MutexLockGuard lock(mutex_);
+        loop_ = &loop;
+        cond_.notify();
+    }
+
+    loop.loop();
+    //assert(exiting_);
     MutexLockGuard lock(mutex_);
-    loop_ = &loop;
-    cond_.notify();
-  }
-
-  loop.loop();
-  //assert(exiting_);
-  MutexLockGuard lock(mutex_);
-  loop_ = NULL;
+    loop_ = NULL;
 }
 

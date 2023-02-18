@@ -1,0 +1,5 @@
+This is an proof of concept implementation of Google Protobuf RPC using common.
+The object lifetime management is for from ideal and doesn't follow the usual
+common approach.
+
+Please consider using http://github.com/chenshuo/common-protorpc instead.

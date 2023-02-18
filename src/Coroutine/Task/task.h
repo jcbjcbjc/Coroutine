@@ -9,6 +9,7 @@
 #include "base/Timestamp.h"
 #include "base/noncopyable.h"
 #include "Coroutine/coroutine.h"
+#include<vector>
 
 using namespace common;
 

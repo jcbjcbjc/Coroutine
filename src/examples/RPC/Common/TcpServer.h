@@ -45,6 +45,11 @@ class TcpServer : noncopyable
             const InetAddress& listenAddr,
             const string& nameArg,
             Option option = kNoReusePort);
+    TcpServer(EventLoop* loop,
+                         const InetAddress& listenAddr,
+                         const string& nameArg,
+                         std::shared_ptr<EventLoopThreadPool> sharedThreadPool,
+                         Option option);
   ~TcpServer();  // force out-line dtor, for std::unique_ptr members.
 
   const string& ipPort() const { return ipPort_; }

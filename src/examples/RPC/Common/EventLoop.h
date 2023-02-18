@@ -14,8 +14,8 @@
 #include <atomic>
 #include <functional>
 #include <vector>
+#include <any>
 
-#include<any>
 #include "base/Mutex.h"
 #include "base/CurrentThread.h"
 #include "base/Timestamp.h"
@@ -116,8 +116,8 @@ class EventLoop : noncopyable
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
   bool eventHandling() const { return eventHandling_; }
 
-  void setContext(const std::any& context)
-  { context_ = context; }
+    void setContext(const std::any& context)
+    { context_ = context; }
 
   const std::any& getContext() const
   { return context_; }
