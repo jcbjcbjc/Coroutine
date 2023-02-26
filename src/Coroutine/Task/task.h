@@ -14,6 +14,8 @@
 using namespace common;
 
 namespace coroutine{
+    typedef std::shared_ptr<Task> TaskPtr;
+
     enum TaskStatus{
         Running,
         Ready,
@@ -41,11 +43,7 @@ namespace coroutine{
             }
         }
         void dealloc(uint64_t id){
-            if (id>=current){
-                return;
-            }
-
-            if(std::find(recycled.begin(), recycled.end(), id) != recycled.end()){
+            if (id>=current||std::find(recycled.begin(), recycled.end(), id) != recycled.end()){
                 return;
             }
 
@@ -85,6 +83,12 @@ namespace coroutine{
         {
             entity_.SetTask(shared_from_this());
         }
+        explicit Task(Scheduler* manager):taskId_(TASK_ID_ALLOCATOR.alloc()),
+                    runtime_(),
+                    //TODO    fixme
+                    mManager_(manager),
+                    delta_()
+        {}
         ~Task(){
             TASK_ID_ALLOCATOR.dealloc(taskId_);
         }
@@ -125,6 +129,13 @@ namespace coroutine{
 
 
         TaskStatus GetStatus(){return status_;}
+
+        template<typename... ARGS>
+        void FillTask(std::function<void()> task,ARGS... args);
+
+
+        template<typename T>
+        std::any getResumeObj(){return static_cast<T>(resumeObject_);}
     private:
         TaskStatus status_;
 

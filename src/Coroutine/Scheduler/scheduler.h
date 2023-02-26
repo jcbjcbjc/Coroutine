@@ -26,7 +26,7 @@ using namespace common;
 namespace coroutine{
 
     typedef std::shared_ptr<ThreadPool> ThreadPoolPtr;
-    typedef std::shared_ptr<Task> TaskPtr;
+
     typedef std::set<TaskPtr> ReadyQueue;
     typedef std::set<TaskPtr> RunningQueue;
     typedef std::set<TaskPtr> AwaitQueue;
@@ -58,8 +58,19 @@ namespace coroutine{
             loop();
         }
 
+        TaskPtr CreateEmptyTask(){
+            TaskPtr taskPtr(new Task(this));
+            return taskPtr;
+        }
+        void StartTask(const TaskPtr& task){
+            /// TODO FINXME
+            runInLoop(std::bind(
+                    &Scheduler::StartTaskInLoop,this,task
+            ));
+        }
+
         template<typename... ARGS>
-        void CreateTask(void (*task)(),ARGS... args){
+        void CreateTask(std::function<void()> task /*void (*task)()*/,ARGS... args){
             //TODO fixme
             ///analyse args
             //analyseArgs(args...);
@@ -89,6 +100,9 @@ namespace coroutine{
         void CreateTaskInLoop(const Entity& entity) {
             TaskPtr taskPtr(new Task(this,entity));
             AddTask(taskPtr);
+        }
+        void StartTaskInLoop(const TaskPtr& task){
+            AddTask(task);
         }
         void CompleteTaskInLoop(const TaskPtr& task) {
             ///leave the runningQueue

@@ -66,7 +66,7 @@ namespace coroutine{
 
 
     template <typename... ARGS>
-    class Coroutine :public Entity {
+    class Coroutine :public Entity,common::noncopyable {
     private:
         uint8_t stack[0x1000];
         uint64_t back;
@@ -81,8 +81,8 @@ namespace coroutine{
         bool ended;
 
     public:
-        Coroutine(void (*coroutine)(),ARGS&&... args)
-                : rsp((uint64_t)&back), rbp(rsp), rip((uint64_t)(void *)coroutine),
+        explicit Coroutine(std::function<void()> coroutine /*void (*coroutine)()*/,ARGS&&... args)
+                : rsp((uint64_t)&back), rbp(rsp), rip((uint64_t)coroutine.target<void()>()),
                   ended(false) {
             //std::make_tuple(std::forward<Ts>(ts)...);
             para= make_tuple(std::forward<ARGS>(args)...),
@@ -94,10 +94,10 @@ namespace coroutine{
         }*/
         ~Coroutine() {}
 
-        static Coroutine make_coroutine(void (*coroutine)(),ARGS&... args){
+        static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&... args){
             return Coroutine(coroutine,std::move(args)...);
         }
-        static Coroutine make_coroutine(void (*coroutine)(),ARGS&&... args){
+        static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&&... args){
             return Coroutine(coroutine,std::move(args)...);
         }
     public:
