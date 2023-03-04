@@ -94,11 +94,11 @@ namespace coroutine{
         }*/
         ~Coroutine() {}
 
-        static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&... args){
-            return Coroutine(coroutine,std::move(args)...);
-        }
+        /*static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&... args){
+            return Coroutine(coroutine,std::forward<ARGS>(args)...);
+        }*/
         static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&&... args){
-            return Coroutine(coroutine,std::move(args)...);
+            return Coroutine(coroutine,std::forward<ARGS>(args)...);
         }
     public:
         int invoke() override  {

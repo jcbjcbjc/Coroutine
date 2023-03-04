@@ -70,7 +70,7 @@ namespace coroutine{
         }
 
         template<typename... ARGS>
-        void CreateTask(std::function<void()> task /*void (*task)()*/,ARGS... args){
+        void CreateTask(std::function<void()> task /*void (*task)()*/,ARGS&&... args){
             //TODO fixme
             ///analyse args
             //analyseArgs(args...);
@@ -80,7 +80,7 @@ namespace coroutine{
             //int size=std::tuple_size<decltype(para)>();
             //std::apply([this](auto&... arg){(( analyseArgs(arg)),...);},para);
 
-            Entity entity=Coroutine<ARGS...>::make_coroutine(task,args...);
+            Entity entity=Coroutine<ARGS...>::make_coroutine(task,std::forward<ARGS>(args)...);
 
             runInLoop(std::bind(
                     &Scheduler::CreateTaskInLoop,this,entity

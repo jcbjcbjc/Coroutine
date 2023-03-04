@@ -18,6 +18,14 @@ int main() {
         co_end(co);
     },3);
 
+    Coroutine tem= Coroutine<>::make_coroutine([]() {
+        co_begin(co,int);
+        printf("%d\n",co_param(co,0));
+        co_yield(co,0);
+        co_yield(co,5);
+        co_end(co);
+    });
+
     temp.invoke();
 
     /// scheduler mode
