@@ -39,6 +39,10 @@ invoke 重入上一次返回的位置，交换上下文切换到协程的上下�
 - 3,使用提供的CreateTask托管协程，模板参数为lamda参数类型
 ## Update
 - 协程之间的通信机制
+## Analysis
+coroutine ：协程对象
+task ：任务，是对协程进一步封装，其中包含任务的各种状态，任务会被注册到scheduler里，由scheduler调度
+future： 代表将来执行或没有执行的任务的结果
 ## Implementation
 使用的主要技术手段：
 - asm嵌入式汇编
