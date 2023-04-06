@@ -31,6 +31,8 @@ void RpcClient::Call(const std::shared_ptr<Task>& mTask_, REQ& request, RES& res
     /// yield
     mTask_->yield();
 
+    mTask_->SetAwaitMode(AwaitMode::AwaitForNotifyNoTimeout);
+
     /// response
     response=mTask_->getResumeObj<RES>();
 }

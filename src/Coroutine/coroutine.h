@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "base/noncopyable.h"
 #include "base/Timestamp.h"
 #include<memory>
 #include <tuple>
