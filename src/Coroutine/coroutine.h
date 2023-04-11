@@ -6,9 +6,9 @@
 #define COROUTINE_COROUTINE_H
 #include <cstdint>
 #include <iostream>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include "base/noncopyable.h"
 #include "base/Timestamp.h"
 #include<memory>
@@ -33,12 +33,13 @@ namespace coroutine{
     public:
 
         AwaitMode awaitMode_;
+        // TODO FIXME
         common::Timestamp awaitTimeout_;
         std::weak_ptr<Task> mTask_;
         Entity(){
             awaitMode_=AwaitMode::AwaitNever;
         }
-        virtual ~Entity(){}
+        virtual ~Entity()= default;
         virtual int invoke(){}
         virtual bool eof(){}
         virtual void await(){}
@@ -50,7 +51,7 @@ namespace coroutine{
             mTask_=task;
         }
         //TODO FIXME
-        std::shared_ptr<Task> GetTask(){
+        std::shared_ptr<Task> GetTask() const{
             std::shared_ptr<Task>ptr (mTask_.lock());
             if(ptr){
                 return ptr;
@@ -92,7 +93,7 @@ namespace coroutine{
         /*Coroutine(Coroutine&& coroutine){
 
         }*/
-        ~Coroutine() {}
+        ~Coroutine() override = default;
 
         /*static Coroutine make_coroutine(std::function<void()> coroutine,ARGS&... args){
             return Coroutine(coroutine,std::forward<ARGS>(args)...);

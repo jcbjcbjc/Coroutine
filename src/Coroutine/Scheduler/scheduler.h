@@ -16,6 +16,7 @@
 #include "base/Logging.h"
 #include "base/noncopyable.h"
 #include "Coroutine/Task/task.h"
+#include <ctime>
 
 #include <set>
 #include <any>
@@ -37,7 +38,7 @@ namespace coroutine{
     public:
         typedef std::function<void()> Functor;
 
-        Scheduler(size_t thread_num)
+        explicit Scheduler(size_t thread_num)
                 :threadNum_(thread_num),
                  readynum_(0),
                  runningnum_(0),
@@ -48,7 +49,7 @@ namespace coroutine{
                  threadId_(0),
                  threadPool_(new ThreadPool())
         {}
-        ~Scheduler(){}
+        ~Scheduler()=default;
 
         void Start(){
             threadPool_->start(threadNum_);
@@ -110,9 +111,8 @@ namespace coroutine{
             runningnum_--;
             task->SetStatus(TaskStatus::Nothing);
 
-//TODO timeincrement
             ///update the cost and the rank
-            //task->runtime_=task->delta_+task->runtime_;
+            task->runtime_=task->delta_+task->runtime_;
 
             if(task->entity_.eof()){
                 task->SetStatus(TaskStatus::End);
@@ -169,8 +169,14 @@ namespace coroutine{
         void runTask(const TaskPtr& task){
             task->SetStatus(TaskStatus::Running);
             threadPool_->run([&](){
-                //TODO caltime
+
+                /// cal the execute time
+                clock_t t1=clock();
+                /// invoke
                 task->entity_.invoke();
+                clock_t t2=clock();
+                /// update the delta
+                task->delta_=(t2-t1);
 
                 CompleteTask(task);
             });

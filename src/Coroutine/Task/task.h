@@ -70,8 +70,8 @@ namespace coroutine{
 
 
         uint64_t  taskId_;
-        Timestamp runtime_;
-        Timestamp delta_;
+        clock_t runtime_;
+        clock_t delta_;
 
         explicit Task(Scheduler* manager,const Entity& entity)
                 :taskId_(TASK_ID_ALLOCATOR.alloc()),

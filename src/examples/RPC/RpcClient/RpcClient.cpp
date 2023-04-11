@@ -21,7 +21,7 @@ void RpcClient::Call(const std::shared_ptr<Task>& mTask_, REQ& request, RES& res
     uint64_t seq=RPC_ID_ALLOCATOR.alloc();
 
     /// TODO add id in the header of the request
-    //client_.connection()->send(request)
+    client_.connection()->send(request);
 
     {
         MutexLockGuard lock(mutex_);
